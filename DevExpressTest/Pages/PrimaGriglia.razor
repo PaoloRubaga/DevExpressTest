@@ -1,0 +1,34 @@
+﻿@page "/primaGriglia"
+
+@using DataAccessLibrary.Models
+@using DataAccessLibrary
+
+@inject IDispositivoData _db
+
+<h3>PrimaGriglia</h3>
+
+
+<DxGrid 
+        Data=@listaDispositivi
+        >
+    <Columns>
+        <DxGridDataColumn FieldName="Matricola"  />
+        <DxGridDataColumn FieldName="Descrizione"  />
+        <DxGridDataColumn FieldName="Modello"  />
+
+    </Columns>
+</DxGrid>
+
+
+
+
+@code {
+    IGrid? UsersGrid { get; set; }
+    private List<DispositivoModel> listaDispositivi;
+
+    protected override async Task OnInitializedAsync()
+    {
+        listaDispositivi = await _db.GetDispositivo();
+    }
+
+}
