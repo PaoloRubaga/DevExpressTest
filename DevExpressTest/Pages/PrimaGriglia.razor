@@ -10,12 +10,14 @@
 
 <DxGrid 
         Data=@listaDispositivi
-        >
+       >
     <Columns>
+        <DxGridCommandSelection />
+        <DxGridSelectionColumn />
         <DxGridDataColumn FieldName="Matricola"  />
         <DxGridDataColumn FieldName="Descrizione"  />
         <DxGridDataColumn FieldName="Modello"  />
-
+        
     </Columns>
 </DxGrid>
 
@@ -25,10 +27,47 @@
 @code {
     IGrid? UsersGrid { get; set; }
     private List<DispositivoModel> listaDispositivi;
+    private DispositivoModel newDispositivo = new DispositivoModel();
+    private DispositivoModel dispositivoDaModificare;
+    private DispositivoModel dispositivoModificato;
+    string matricolaPk;
 
     protected override async Task OnInitializedAsync()
     {
         listaDispositivi = await _db.GetDispositivo();
+    }
+
+    private async Task InsertDispositivo()
+    {
+        await _db.InsertDispositivo(newDispositivo);
+        newDispositivo = new DispositivoModel();
+        await OnInitializedAsync();
+    }
+
+    private async Task DeleteDispositivo(DispositivoModel d)
+    {
+        await _db.DeleteDispositivo(d);
+        await OnInitializedAsync();
+    }
+
+    private async Task UpdateDispositivo()
+    {
+        await _db.UpdateDispositivo(matricolaPk, dispositivoDaModificare);
+
+        dispositivoDaModificare = null;
+        await OnInitializedAsync();
+    }
+
+    private async Task ModificaDispositivo(DispositivoModel d)
+    {
+        dispositivoDaModificare = new DispositivoModel
+            {
+                Matricola = d.Matricola,
+                Descrizione = d.Descrizione,
+                Modello = d.Modello
+            };
+        matricolaPk = d.Matricola;
+        await OnInitializedAsync();
     }
 
 }
