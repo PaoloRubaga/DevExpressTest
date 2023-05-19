@@ -8,17 +8,35 @@
 <h3>PrimaGriglia</h3>
 
 
-<DxGrid 
-        Data=@listaDispositivi
-       >
+<DxGrid Data=@listaDispositivi
+        EditModelSaving="ModificaDispositivoDX"
+    EditMode="GridEditMode.PopupEditForm">
     <Columns>
-        <DxGridCommandSelection />
+        <DxGridCommandColumn />
         <DxGridSelectionColumn />
         <DxGridDataColumn FieldName="Matricola"  />
         <DxGridDataColumn FieldName="Descrizione"  />
         <DxGridDataColumn FieldName="Modello"  />
         
     </Columns>
+    <EditFormTemplate Context="editFormContent ">
+        @{
+            dispositivoDaModificare = (DispositivoModel)editFormContent.DataItem;
+            dispositivoModificato = (DispositivoModel)editFormContent.EditModel;
+
+        }
+        <DxFormLayout>
+            <DxFormLayoutItem Caption="Matricola:">
+                <DxTextBox @bind-Text="@dispositivoModificato.Matricola" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Descrizione:">
+                <DxTextBox @bind-Text="@dispositivoModificato.Descrizione" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Modello:">
+                <DxTextBox @bind-Text="@dispositivoModificato.Modello" />
+            </DxFormLayoutItem>
+        </DxFormLayout>
+    </EditFormTemplate>
 </DxGrid>
 
 
@@ -31,10 +49,22 @@
     private DispositivoModel dispositivoDaModificare;
     private DispositivoModel dispositivoModificato;
     string matricolaPk;
+    
 
     protected override async Task OnInitializedAsync()
     {
         listaDispositivi = await _db.GetDispositivo();
+    }
+
+    async Task ModificaDispositivoDX(GridEditModelSavingEventArgs e)
+    {
+
+        var DispositivoModified = (DispositivoModel)e.EditModel;
+
+        //var dataItem = e.IsNew ? new DispositivoModel() : listaDispositivi.Find(editModel.Matricola);
+
+        await _db.UpdateDispositivo(dispositivoDaModificare.Matricola, dispositivoModificato);
+        await OnInitializedAsync();
     }
 
     private async Task InsertDispositivo()
