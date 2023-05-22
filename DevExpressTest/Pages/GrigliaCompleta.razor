@@ -1,0 +1,29 @@
+﻿@page "/grigliaCompleta"
+
+@using DataAccessLibrary
+@using DataAccessLibrary.Models
+
+@inject IDispositivoData _db
+
+<h3>GrigliaCompleta</h3>
+
+<DxGrid Data=@listaDispositivi
+        AutoGenerateColumns="true">
+
+
+</DxGrid>
+
+
+
+
+
+@code {
+    private List<DispositivoModel> listaDispositivi;
+
+    protected override async Task OnInitializedAsync()
+    {
+        listaDispositivi = await _db.GetDispositivo();
+    }
+
+
+}
