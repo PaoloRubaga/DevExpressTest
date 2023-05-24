@@ -1,0 +1,138 @@
+﻿
+@page "/grigliaOrdiniTest"
+
+
+@using DataAccessLibrary
+@using DataAccessLibrary.Models
+@using DevExpressTest.Components
+
+
+@inject IOrdineData _db
+
+<h3>GigliaOrdiniTest</h3>
+
+
+
+<DxButton Text="Seleziona Colonne"
+          RenderStyle="ButtonRenderStyle.Secondary"
+          CssClass="column-chooser-button"
+          Click="OnClick">
+</DxButton>
+
+
+<DxGrid Data=@listaOrdini
+        EditModelSaving="ModificaOrdine"
+        EditMode="GridEditMode.PopupEditForm"
+        DataItemDeleting="EliminaOrdine"
+        ShowFilterRow="true"
+        PageSize="@pageSize"
+        @ref="Grid"
+        CssClass="mw-1100">
+    <Columns>
+
+        <DxGridSelectionColumn />
+        <DxGridDataColumn FieldName="DataOrdine" SortIndex="0" SortOrder="GridColumnSortOrder.Descending">
+            
+        </DxGridDataColumn>
+        <DxGridDataColumn FieldName="NomeProdotto" />
+        <DxGridDataColumn FieldName="Id" />
+        <DxGridDataColumn FieldName="Stato" />
+        <DxGridDataColumn FieldName="Citta" />
+        <DxGridDataColumn FieldName="PrezzoUnitario" />
+        <DxGridDataColumn FieldName="Quantita" FilterRowOperatorType="GridFilterRowOperatorType.Less">
+            <FilterRowCellTemplate>
+                    <OperatorType FilterContext="@context">
+                        <DxSpinEdit Value="(int?)context.FilterRowValue"
+                                ValueChanged="(int? v) => context.FilterRowValue = v" />
+                    </OperatorType>
+                </FilterRowCellTemplate>
+        </DxGridDataColumn>
+        <DxGridCommandColumn />
+
+    </Columns>
+    <EditFormTemplate Context="editFormContent ">
+        @{
+            ordineDaModificare = (OrdineModel)editFormContent.DataItem;
+            ordineModificato = (OrdineModel)editFormContent.EditModel;
+        }
+        <DxFormLayout>
+            <DxFormLayoutItem Caption="DataOrdine:">
+                <DxDateEdit @bind-Date="@ordineModificato.DataOrdine" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="NomeProdotto:">
+                <DxTextBox @bind-Text="@ordineModificato.NomeProdotto" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Stato:">
+                <DxTextBox @bind-Text="@ordineModificato.Stato" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Citta:">
+                <DxTextBox @bind-Text="@ordineModificato.Citta" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="PrezzoUnitario:">
+                <DxMaskedInput @bind-Value="@ordineModificato.PrezzoUnitario" Mask="@NumericMask.WholeNumber" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Quantita:">
+                <DxMaskedInput @bind-Value="@ordineModificato.Quantita" Mask="@NumericMask.WholeNumber" />
+            </DxFormLayoutItem>
+        </DxFormLayout>
+    </EditFormTemplate>
+</DxGrid>
+
+
+
+
+@code {
+    DxGrid Grid { get; set; }
+    private List<OrdineModel> listaOrdini;
+    private OrdineModel ordineDaModificare;
+    private OrdineModel ordineModificato;
+    private int pageSize = 8;
+    private DateTime? StartDate { get; set; }
+    private DateTime? EndDate { get; set; }
+    private int MinDuration { get; set; } = 0;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        listaOrdini = await _db.GetOrdini();
+    }
+
+    async Task ModificaOrdine(GridEditModelSavingEventArgs e)
+    {
+
+        var OrdineModified = (OrdineModel)e.EditModel;
+
+        if (ordineDaModificare is null)
+        {
+            await _db.InsertOrdine(ordineModificato);
+        }
+        else
+            await _db.UpdateOrdine(ordineDaModificare.Id.ToString(), ordineModificato);
+        await OnInitializedAsync();
+    }
+
+    async Task EliminaOrdine(GridDataItemDeletingEventArgs e)
+    {
+        var ordineDeleted = (OrdineModel)e.DataItem;
+
+        await _db.DeleteOrdine(ordineDeleted);
+        await OnInitializedAsync();
+    }
+
+    private async Task DeleteDispositivo(OrdineModel d)
+    {
+        await _db.DeleteOrdine(d);
+        await OnInitializedAsync();
+    }
+
+    void OnClick()
+    {
+        Grid.ShowColumnChooser(".column-chooser-button");
+    }
+
+
+
+
+
+
+}

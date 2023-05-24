@@ -27,6 +27,8 @@ namespace DataAccessLibrary
                 return data.ToList();
             }
         }
+
+        //da capire
         public async Task<List<T>> LoadData<T, U>(string storedProcedure, U parameters, string connectionStringName, CommandType commandType = CommandType.Text)
         {
             string connectionString = _config.GetConnectionString(connectionStringName) ?? string.Empty;

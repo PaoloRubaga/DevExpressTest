@@ -1,4 +1,4 @@
-@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('open.iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -38,4 +38,15 @@ html, body {
     position: absolute;
     right: 0.75rem;
     top: 0.5rem;
+}
+.filter-type-container {
+    display: flex;
+}
+
+    .filter-type-container > div {
+        width: 100%;
+    }
+
+.filter-type-button {
+    margin-right: 5px;
 }

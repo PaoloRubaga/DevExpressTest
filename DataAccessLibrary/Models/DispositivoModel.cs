@@ -20,5 +20,7 @@ namespace DataAccessLibrary.Models
         [StringLength(10, ErrorMessage = "Modello troppo lunga")]
         [MinLength(3, ErrorMessage = "Modello troppo corta")]
         public string Modello { get; set; }
+
+        public string Text => $"{Matricola} {Descrizione} {Modello}";
     }
 }

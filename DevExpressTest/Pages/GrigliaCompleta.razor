@@ -1,5 +1,6 @@
 ﻿@page "/grigliaCompleta"
 
+@using System.Collections.Generic;
 @using DataAccessLibrary
 @using DataAccessLibrary.Models
 
@@ -7,23 +8,107 @@
 
 <h3>GrigliaCompleta</h3>
 
+
+
+<DxButton Text="Seleziona Colonne"
+          RenderStyle="ButtonRenderStyle.Secondary"
+          CssClass="column-chooser-button"
+          Click="OnClick">
+</DxButton>
+
+
 <DxGrid Data=@listaDispositivi
-        AutoGenerateColumns="true">
+        EditModelSaving="ModificaDispositivoDX"
+        EditMode="GridEditMode.PopupEditForm"
+        DataItemDeleting="EliminaDispositivoDX"
+        ShowFilterRow="true"
+        PageSize = "@pageSize"
+        
+        @ref="Grid">
+    <Columns>
 
+        <DxGridSelectionColumn />
+        <DxGridDataColumn FieldName="Matricola" SortIndex="0" SortOrder="GridColumnSortOrder.Descending" >
+            
+        </DxGridDataColumn>
+        <DxGridDataColumn FieldName="Descrizione" />
+        <DxGridDataColumn FieldName="Modello" AllowSort = "false"/>
+        <DxGridCommandColumn />
 
+    </Columns>
+    <EditFormTemplate Context="editFormContent ">
+        @{
+            dispositivoDaModificare = (DispositivoModel)editFormContent.DataItem;
+            dispositivoModificato = (DispositivoModel)editFormContent.EditModel;
+
+        }
+        <DxFormLayout>
+            <DxFormLayoutItem Caption="Matricola:">
+                <DxTextBox @bind-Text="@dispositivoModificato.Matricola" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Descrizione:">
+                <DxTextBox @bind-Text="@dispositivoModificato.Descrizione" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Modello:">
+                <DxTextBox @bind-Text="@dispositivoModificato.Modello" />
+            </DxFormLayoutItem>
+        </DxFormLayout>
+    </EditFormTemplate>
 </DxGrid>
 
 
 
 
-
 @code {
+    DxGrid Grid { get; set; }
     private List<DispositivoModel> listaDispositivi;
+    private DispositivoModel dispositivoDaModificare;
+    private DispositivoModel dispositivoModificato;
+    private int pageSize = 8;
+
 
     protected override async Task OnInitializedAsync()
     {
         listaDispositivi = await _db.GetDispositivo();
     }
+
+    async Task ModificaDispositivoDX(GridEditModelSavingEventArgs e)
+    {
+
+        var DispositivoModified = (DispositivoModel)e.EditModel;
+
+        if (dispositivoDaModificare is null)
+        {
+            await _db.InsertDispositivo(dispositivoModificato);
+        }
+        else
+            await _db.UpdateDispositivo(dispositivoDaModificare.Matricola, dispositivoModificato);
+        await OnInitializedAsync();
+    }
+
+    async Task EliminaDispositivoDX(GridDataItemDeletingEventArgs e)
+    {
+
+        var DispositivoDeleted = (DispositivoModel)e.DataItem;
+
+        //var dataItem = e.IsNew ? new DispositivoModel() : listaDispositivi.Find(editModel.Matricola);
+
+        await _db.DeleteDispositivo(DispositivoDeleted);
+        await OnInitializedAsync();
+    }
+
+    private async Task DeleteDispositivo(DispositivoModel d)
+    {
+        await _db.DeleteDispositivo(d);
+        await OnInitializedAsync();
+    }
+
+    void OnClick()
+    {
+        Grid.ShowColumnChooser(".column-chooser-button");
+    }
+
+
 
 
 }

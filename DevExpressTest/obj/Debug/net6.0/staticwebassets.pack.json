@@ -9,6 +9,38 @@
       "PackagePath": "staticwebassets\\css\\blazing berry\\bootstrap.min.css"
     },
     {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\blazing_berry\\bootstrap.css",
+      "PackagePath": "staticwebassets\\css\\blazing_berry\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\blazing_berry\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\blazing_berry\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\blazing_dark\\bootstrap.css",
+      "PackagePath": "staticwebassets\\css\\blazing_dark\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\blazing_dark\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\blazing_dark\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\bootstrap\\bootstrap.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\office_white\\bootstrap.css",
+      "PackagePath": "staticwebassets\\css\\office_white\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\office_white\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\office_white\\bootstrap.min.css"
+    },
+    {
       "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\open-iconic\\FONT-LICENSE.txt",
       "PackagePath": "staticwebassets\\css\\open-iconic\\FONT-LICENSE.txt"
     },
@@ -45,6 +77,50 @@
       "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.woff"
     },
     {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\open.iconic\\FONT-LICENSE.txt",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\FONT-LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\open.iconic\\ICON-LICENSE.txt",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\ICON-LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\open.iconic\\README.md",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\README.md"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\open.iconic\\font\\css\\open-iconic-bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\font\\css\\open-iconic-bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\open.iconic\\font\\fonts\\open-iconic.eot",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\font\\fonts\\open-iconic.eot"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\open.iconic\\font\\fonts\\open-iconic.otf",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\font\\fonts\\open-iconic.otf"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\open.iconic\\font\\fonts\\open-iconic.svg",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\font\\fonts\\open-iconic.svg"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\open.iconic\\font\\fonts\\open-iconic.ttf",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\font\\fonts\\open-iconic.ttf"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\open.iconic\\font\\fonts\\open-iconic.woff",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\font\\fonts\\open-iconic.woff"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\purple\\bootstrap.css",
+      "PackagePath": "staticwebassets\\css\\purple\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\purple\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\purple\\bootstrap.min.css"
+    },
+    {
       "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
@@ -55,6 +131,46 @@
     {
       "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\images\\banner.png",
       "PackagePath": "staticwebassets\\images\\banner.png"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\images\\filterIcons\\Contains.svg",
+      "PackagePath": "staticwebassets\\images\\filterIcons\\Contains.svg"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\images\\filterIcons\\Default.svg",
+      "PackagePath": "staticwebassets\\images\\filterIcons\\Default.svg"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\images\\filterIcons\\EndsWith.svg",
+      "PackagePath": "staticwebassets\\images\\filterIcons\\EndsWith.svg"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\images\\filterIcons\\Equal.svg",
+      "PackagePath": "staticwebassets\\images\\filterIcons\\Equal.svg"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\images\\filterIcons\\Greater.svg",
+      "PackagePath": "staticwebassets\\images\\filterIcons\\Greater.svg"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\images\\filterIcons\\GreaterOrEqual.svg",
+      "PackagePath": "staticwebassets\\images\\filterIcons\\GreaterOrEqual.svg"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\images\\filterIcons\\Less.svg",
+      "PackagePath": "staticwebassets\\images\\filterIcons\\Less.svg"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\images\\filterIcons\\LessOrEqual.svg",
+      "PackagePath": "staticwebassets\\images\\filterIcons\\LessOrEqual.svg"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\images\\filterIcons\\NotEqual.svg",
+      "PackagePath": "staticwebassets\\images\\filterIcons\\NotEqual.svg"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\images\\filterIcons\\StartsWith.svg",
+      "PackagePath": "staticwebassets\\images\\filterIcons\\StartsWith.svg"
     },
     {
       "Id": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\images\\sad.svg",

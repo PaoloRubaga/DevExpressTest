@@ -2,10 +2,13 @@
 
 @using DataAccessLibrary.Models
 @using DataAccessLibrary
+@using DevExpressTest.Components
 
 @inject IDispositivoData _db
 
 <h3>PrimaGriglia</h3>
+
+<input type="text" @bind-value="FilterText" @bind-value:event="oninput" placeholder="Search" />
 
 <DxButton Text ="Seleziona Colonne"
     RenderStyle="ButtonRenderStyle.Secondary"
@@ -14,13 +17,15 @@
 </DxButton>
 
 <DxGrid Data=@listaDispositivi
-        EditModelSaving="ModificaDispositivoDX"
+    EditModelSaving="ModificaDispositivoDX"
     EditMode="GridEditMode.PopupEditForm"
-@ref="Grid">
+        DataItemDeleting="EliminaDispositivoDX"
+        ShowFilterRow="true"
+    @ref="Grid">
     <Columns>
         
         <DxGridSelectionColumn />
-        <DxGridDataColumn FieldName="Matricola"  />
+        <DxGridDataColumn FieldName="Matricola" />
         <DxGridDataColumn FieldName="Descrizione"  />
         <DxGridDataColumn FieldName="Modello"  />
         <DxGridCommandColumn />
@@ -30,7 +35,6 @@
         @{
             dispositivoDaModificare = (DispositivoModel)editFormContent.DataItem;
             dispositivoModificato = (DispositivoModel)editFormContent.EditModel;
-
         }
         <DxFormLayout>
             <DxFormLayoutItem Caption="Matricola:">
@@ -46,6 +50,9 @@
     </EditFormTemplate>
 </DxGrid>
 
+<p />
+<DxButton Click="@(() => Grid.SortBy("Descrizione"))">ordina per descrizione</DxButton>
+
 
 
 
@@ -53,6 +60,7 @@
     DxGrid Grid { get; set; }
     IGrid? UsersGrid { get; set; }
     private List<DispositivoModel> listaDispositivi;
+    private List<DispositivoModel> viewDispositivi;
     private DispositivoModel newDispositivo = new DispositivoModel();
     private DispositivoModel dispositivoDaModificare;
     private DispositivoModel dispositivoModificato;
@@ -64,6 +72,7 @@
         listaDispositivi = await _db.GetDispositivo();
     }
 
+
     async Task ModificaDispositivoDX(GridEditModelSavingEventArgs e)
     {
 
@@ -71,7 +80,38 @@
 
         //var dataItem = e.IsNew ? new DispositivoModel() : listaDispositivi.Find(editModel.Matricola);
 
+        if (dispositivoDaModificare is null)
+        {
+            await _db.InsertDispositivo(dispositivoModificato);
+        }
+        else
+            await _db.UpdateDispositivo(dispositivoDaModificare.Matricola, dispositivoModificato);
+        await OnInitializedAsync();
+    }
+
+    async Task AggiungiDispositivoDX(GridEditModelSavingEventArgs e)
+    {
+
+        var DispositivoModified = (DispositivoModel)e.EditModel;
+
+        //var dataItem = e.IsNew ? new DispositivoModel() : listaDispositivi.Find(editModel.Matricola);
+        if(dispositivoDaModificare is null)
+        {
+            await _db.InsertDispositivo(dispositivoModificato);
+        }
+        else
         await _db.UpdateDispositivo(dispositivoDaModificare.Matricola, dispositivoModificato);
+        await OnInitializedAsync();
+    }
+
+    async Task EliminaDispositivoDX(GridDataItemDeletingEventArgs e)
+    {
+
+        var DispositivoDeleted = (DispositivoModel)e.DataItem;
+
+        //var dataItem = e.IsNew ? new DispositivoModel() : listaDispositivi.Find(editModel.Matricola);
+
+        await _db.DeleteDispositivo(DispositivoDeleted);
         await OnInitializedAsync();
     }
 
@@ -112,5 +152,28 @@
     {
         Grid.ShowColumnChooser(".column-chooser-button");
     }
+
+    List<DispositivoModel> FilteredData { get; set; }
+    DispositivoModel Value { get; set; }
+
+    string _filterText = "";
+    string FilterText
+    {
+        get { return _filterText; }
+        set
+        {
+            _filterText = value;
+            FilteredData = listaDispositivi.FindAll(x => x.Text.Contains(_filterText, StringComparison.OrdinalIgnoreCase));
+            Value = FilteredData.FirstOrDefault();
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+    void OnClick2()
+    {
+        Grid.ShowColumnChooser(".column-chooser-button");
+    }
+
+
 
 }

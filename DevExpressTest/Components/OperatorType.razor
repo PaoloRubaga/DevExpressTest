@@ -1,0 +1,64 @@
+﻿﻿<style>
+    @("." + IconCssClass) {
+        width: 16px;
+        height: 16px;
+        -webkit-mask-image: url(@CurrentOperatorType.IconPath);
+        mask-image: url(@CurrentOperatorType.IconPath);
+        background-color: currentColor;
+    }
+</style>
+<div class="filter-type-container" id="@PositionTargetID">
+    <DxButton CssClass="filter-type-button"
+              IconCssClass="@IconCssClass"
+              Click="() => IsOpen = !IsOpen"></DxButton>
+    <DxDropDown @bind-IsOpen="@IsOpen"
+                HeaderVisible="false"
+                FooterVisible="false"
+                PositionMode="DropDownPositionMode.Bottom"
+                PositionTarget="@("#" + PositionTargetID)">
+        <BodyTemplate>
+            <DxListBox Data="OperatorTypes"
+                       @bind-Value="CurrentOperatorType"
+                       TextFieldName="@(nameof(OperatorTypeWrapper.DisplayText))"></DxListBox>
+        </BodyTemplate>
+    </DxDropDown>
+    <div>
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    [Parameter] public GridDataColumnFilterRowCellTemplateContext FilterContext { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    List<OperatorTypeWrapper> OperatorTypes { get; set; }
+
+    OperatorTypeWrapper CurrentOperatorType {
+        get => OperatorTypes.First((ot) => ot.Value == FilterContext.DataColumn.FilterRowOperatorType);
+        set {
+            FilterContext.Grid.BeginUpdate();
+            FilterContext.DataColumn.FilterRowOperatorType = value.Value;
+            FilterContext.Grid.EndUpdate();
+            IsOpen = false;
+        }
+    }
+    bool IsOpen { get; set; } = false;
+    string PositionTargetID => $"dropdown-target-container-{FilterContext.DataColumn.FieldName}";
+    string IconCssClass => $"icon-class-{FilterContext.DataColumn.FieldName}";
+    protected override void OnInitialized() {
+        OperatorTypes = Enum.GetValues(typeof(GridFilterRowOperatorType))
+            .OfType<GridFilterRowOperatorType>()
+            .Select(t => new OperatorTypeWrapper(t, t.ToString())).ToList();
+    }
+
+    class OperatorTypeWrapper {
+        public OperatorTypeWrapper(GridFilterRowOperatorType value, string displayText) {
+            Value = value;
+            DisplayText = displayText;
+        }
+        public GridFilterRowOperatorType Value { get; set; }
+        public string DisplayText { get; set; }
+        public string IconPath => $"images/filterIcons/{DisplayText}.svg";
+    };
+
+}
