@@ -19,7 +19,8 @@
         <BodyTemplate>
             <DxListBox Data="OperatorTypes"
                        @bind-Value="CurrentOperatorType"
-                       TextFieldName="@(nameof(OperatorTypeWrapper.DisplayText))"></DxListBox>
+                       TextFieldName="@(nameof(OperatorTypeWrapper.DisplayText))">
+            </DxListBox>
         </BodyTemplate>
     </DxDropDown>
     <div>
@@ -37,7 +38,10 @@
         get => OperatorTypes.First((ot) => ot.Value == FilterContext.DataColumn.FilterRowOperatorType);
         set {
             FilterContext.Grid.BeginUpdate();
-            FilterContext.DataColumn.FilterRowOperatorType = value.Value;
+            //if (value.Value != GridFilterRowOperatorType.Default)
+            //{
+                FilterContext.DataColumn.FilterRowOperatorType = value.Value;
+            //}
             FilterContext.Grid.EndUpdate();
             IsOpen = false;
         }

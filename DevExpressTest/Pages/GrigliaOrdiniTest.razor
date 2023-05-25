@@ -5,9 +5,12 @@
 @using DataAccessLibrary
 @using DataAccessLibrary.Models
 @using DevExpressTest.Components
+@using DevExpress.Data.Filtering;
 
 
 @inject IOrdineData _db
+@inject IOrdiniDataNoDapper _dbNoDapper
+
 
 <h3>GigliaOrdiniTest</h3>
 
@@ -30,24 +33,101 @@
         CssClass="mw-1100">
     <Columns>
 
-        <DxGridSelectionColumn />
-        <DxGridDataColumn FieldName="DataOrdine" SortIndex="0" SortOrder="GridColumnSortOrder.Descending">
+        <DxGridSelectionColumn Width="50" />
+        <DxGridDataColumn FieldName="DataOrdine" SortIndex="0" Width="300" TextAlignment="GridTextAlignment.Center" >
+            <FilterRowCellTemplate Context="filterContext">
+                <DxFormLayout ItemCaptionAlignment="ItemCaptionAlignment.None">
+                    <DxFormLayoutItem>
+                        <DxDateEdit Date="@StartDate"
+                                    DateChanged=@((DateTime? newStartDateValue) => {
+                                    StartChanged(newStartDateValue);
+                                    filterContext.FilterCriteria = GetNewCriteria(filterContext);
+                                    })
+                                    NullText="Data Inizio"
+                                    ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
+                        </DxDateEdit>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem>
+                        <DxDateEdit Date="@EndDate"
+                                    DateChanged=@((DateTime? newEndDateValue) => {
+                                    EndChanged(newEndDateValue);
+                                    filterContext.FilterCriteria = GetNewCriteria(filterContext);
+                                    })
+                                    NullText="Data Fine"
+                                    ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" >
+                        </DxDateEdit>
+                    </DxFormLayoutItem>
+                </DxFormLayout>
+            </FilterRowCellTemplate>        
+        </DxGridDataColumn>
+        <DxGridDataColumn FieldName="NomeProdotto" TextAlignment="GridTextAlignment.Center" />
+        <DxGridDataColumn FieldName="Stato" SortOrder="GridColumnSortOrder.Descending" TextAlignment="GridTextAlignment.Center" />
+        <DxGridDataColumn FieldName="Citta" TextAlignment="GridTextAlignment.Center" />
+        <DxGridDataColumn FieldName="PrezzoUnitario" Width="250" TextAlignment="GridTextAlignment.Center" > 
+            <FilterRowCellTemplate Context="filterContextPrezzoUnitario">
+                <DxFormLayout ItemCaptionAlignment="ItemCaptionAlignment.None">
+                    <DxFormLayoutItem ColSpanMd="10">
+                        <DxMaskedInput Value="@PrezzoUnitarioMinore"
+                                       ValueChanged=@((int? newStartValue) => {
+                                       StartChangedPrezzoUnitario(newStartValue);
+                                       filterContextPrezzoUnitario.FilterCriteria = GetNewCriteriaPrezzoUnitario(filterContextPrezzoUnitario);
+                                       })
+                                        Mask="@NumericMask.WholeNumber" 
+                                        NullText="Minore"
+                                        ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"/>
+                        <DxMaskedInput Value="@PrezzoUnitarioMaggiore"
+                                       ValueChanged=@((int? newEndValue) => {
+                                       EndChangedPrezzoUnitario(newEndValue);
+                                       filterContextPrezzoUnitario.FilterCriteria = GetNewCriteriaPrezzoUnitario(filterContextPrezzoUnitario);
+                                       })
+                                       Mask="@NumericMask.WholeNumber"
+                                       NullText="Maggiore"
+                                       ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+                        
+                    </DxFormLayoutItem>
+                </DxFormLayout>
+            </FilterRowCellTemplate>
+        </DxGridDataColumn>
+        <DxGridDataColumn FieldName="Quantita" FilterRowOperatorType="GridFilterRowOperatorType.Less" Width="200" TextAlignment="GridTextAlignment.Center">
+            <FilterRowCellTemplate Context="filterContextQuantita">
+                <OperatorType FilterContext="@filterContextQuantita">
+                    
+                    @if (filterContextQuantita.DataColumn.FilterRowOperatorType is not GridFilterRowOperatorType.Default)
+                    {
+                        <DxMaskedInput Mask="@NumericMask.WholeNumber"
+                                   Value="(int?)filterContextQuantita.FilterRowValue"
+                                   ValueChanged="(int? v) => filterContextQuantita.FilterRowValue = v" />
+                    }
+                    else
+                    {
+
+                        <DxFormLayout ItemCaptionAlignment="ItemCaptionAlignment.None">
+                            <DxFormLayoutItem ColSpanMd="12">
+                                <DxMaskedInput Value="@PrezzoUnitarioMinore"
+                                       ValueChanged=@((int? newStartValue) => {
+                                       StartChangedPrezzoUnitario(newStartValue);
+                                           filterContextQuantita.FilterCriteria = GetNewCriteriaPrezzoUnitario(filterContextQuantita);
+                                       })
+                                        Mask="@NumericMask.WholeNumber" 
+                                        NullText="Minore"
+                                        ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+                                <DxMaskedInput Value="@PrezzoUnitarioMaggiore"
+                                       ValueChanged=@((int? newEndValue) => {
+                                       EndChangedPrezzoUnitario(newEndValue);
+                                           filterContextQuantita.FilterCriteria = GetNewCriteriaPrezzoUnitario(filterContextQuantita);
+                                       })
+                                       Mask="@NumericMask.WholeNumber"
+                                       NullText="Maggiore"
+                                       ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+
+                            </DxFormLayoutItem>
+                        </DxFormLayout>
             
+                    }
+                </OperatorType>
+            </FilterRowCellTemplate>
         </DxGridDataColumn>
-        <DxGridDataColumn FieldName="NomeProdotto" />
-        <DxGridDataColumn FieldName="Id" />
-        <DxGridDataColumn FieldName="Stato" />
-        <DxGridDataColumn FieldName="Citta" />
-        <DxGridDataColumn FieldName="PrezzoUnitario" />
-        <DxGridDataColumn FieldName="Quantita" FilterRowOperatorType="GridFilterRowOperatorType.Less">
-            <FilterRowCellTemplate>
-                    <OperatorType FilterContext="@context">
-                        <DxSpinEdit Value="(int?)context.FilterRowValue"
-                                ValueChanged="(int? v) => context.FilterRowValue = v" />
-                    </OperatorType>
-                </FilterRowCellTemplate>
-        </DxGridDataColumn>
-        <DxGridCommandColumn />
+        <DxGridCommandColumn Width="80" />
 
     </Columns>
     <EditFormTemplate Context="editFormContent ">
@@ -82,6 +162,7 @@
 
 
 @code {
+
     DxGrid Grid { get; set; }
     private List<OrdineModel> listaOrdini;
     private OrdineModel ordineDaModificare;
@@ -90,11 +171,28 @@
     private DateTime? StartDate { get; set; }
     private DateTime? EndDate { get; set; }
     private int MinDuration { get; set; } = 0;
+    private int? PrezzoUnitarioMinore {get; set;}
+    private int? PrezzoUnitarioMaggiore {get; set;}
+    private int? QuantitaMinore {get; set;}
+    private int? QuantitaMaggiore { get; set; }
+    
+
+    class OperatorTypeWrapper
+    {
+        public OperatorTypeWrapper(GridFilterRowOperatorType value, string displayText)
+        {
+            Value = value;
+            DisplayText = displayText;
+        }
+        public GridFilterRowOperatorType Value { get; set; }
+        public string DisplayText { get; set; }
+        public string IconPath => $"images/filterIcons/{DisplayText}.svg";
+    };
 
 
     protected override async Task OnInitializedAsync()
     {
-        listaOrdini = await _db.GetOrdini();
+        listaOrdini =  await _dbNoDapper.GetOrdini();
     }
 
     async Task ModificaOrdine(GridEditModelSavingEventArgs e)
@@ -130,7 +228,70 @@
         Grid.ShowColumnChooser(".column-chooser-button");
     }
 
-
+    private CriteriaOperator GetNewCriteria(GridDataColumnFilterRowCellTemplateContext context)
+    {
+        if (StartDate.HasValue && EndDate.HasValue)
+        {
+            var operandProperty = new OperandProperty(context.DataColumn.FieldName);
+            var startDate = StartDate.Value.Date;
+            var endDate = EndDate.Value.Date.AddDays(1);
+            return operandProperty >= startDate & operandProperty <= endDate;
+        }
+        else
+            return null;
+    }
+    void StartChanged(DateTime? newDate)
+    {
+        StartDate = newDate;
+        if (StartDate.HasValue)
+        {
+            StartDate = StartDate.Value.Date;
+            if (EndDate.HasValue && EndDate.Value.Subtract(StartDate.Value).Days < MinDuration)
+                EndDate = StartDate.Value.AddDays(MinDuration);
+        }
+    }
+    void EndChanged(DateTime? newDate)
+    {
+        EndDate = newDate;
+        if (EndDate.HasValue)
+        {
+            EndDate = EndDate.Value.Date;
+            if (StartDate.HasValue && EndDate.Value.Subtract(StartDate.Value).Days < MinDuration)
+                StartDate = EndDate.Value.AddDays(-MinDuration);
+        }
+    }
+    private CriteriaOperator GetNewCriteriaPrezzoUnitario(GridDataColumnFilterRowCellTemplateContext context)
+    {
+        if (PrezzoUnitarioMinore.HasValue && PrezzoUnitarioMaggiore.HasValue)
+        {
+            var operandProperty = new OperandProperty(context.DataColumn.FieldName);
+            var startDate = PrezzoUnitarioMinore.Value;
+            var endDate = PrezzoUnitarioMaggiore.Value;
+            return operandProperty >= startDate & operandProperty <= endDate;
+        }
+        else
+            return null;
+    }
+    void StartChangedPrezzoUnitario(int? newStart)
+    {
+        PrezzoUnitarioMinore = newStart;
+        if (PrezzoUnitarioMinore.HasValue)
+        {
+            
+            if (PrezzoUnitarioMaggiore.HasValue && (PrezzoUnitarioMaggiore - PrezzoUnitarioMinore) < MinDuration)
+                PrezzoUnitarioMaggiore = PrezzoUnitarioMinore + MinDuration;
+        } 
+    }
+    void EndChangedPrezzoUnitario(int? newEnd)
+    {
+        PrezzoUnitarioMaggiore = newEnd;
+        if (PrezzoUnitarioMaggiore.HasValue)
+        {
+           
+            if (PrezzoUnitarioMinore.HasValue && (PrezzoUnitarioMaggiore - PrezzoUnitarioMinore) < MinDuration)
+                PrezzoUnitarioMinore = PrezzoUnitarioMinore - MinDuration;
+        }
+    }
 
 
 

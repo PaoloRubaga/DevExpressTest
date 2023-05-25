@@ -11,6 +11,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddTransient<IDispositivoData, DispositivoData>();
 builder.Services.AddTransient<IOrdineData, OrdineData>();
+builder.Services.AddTransient<IOrdiniDataNoDapper, OrdiniDataNoDapper>();
 builder.Services.Configure<DevExpress.Blazor.Configuration.GlobalOptions>(options =>
 {
     options.BootstrapVersion = DevExpress.Blazor.BootstrapVersion.v5;
