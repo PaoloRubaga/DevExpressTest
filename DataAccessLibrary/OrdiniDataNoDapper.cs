@@ -15,9 +15,23 @@ namespace DataAccessLibrary
             ConnectionString = _configuration.GetConnectionString("Default");
         }
 
-        public Task DeleteOrdine(OrdineModel Ordine)
+        public async Task DeleteOrdine(OrdineModel Ordine)
         {
-            throw new NotImplementedException();
+            string sql = @"DELETE FROM dbo.OrdiniTest WHERE ID = @Id;";
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                await connection.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand(sql, connection))
+                {
+
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.AddWithValue("Id", Ordine.Id);
+                    cmd.ExecuteNonQuery();
+
+                }
+
+            }
         }
 
         //public async Task<List<OrdineModel>> GetOrdini()
@@ -84,9 +98,30 @@ namespace DataAccessLibrary
             return listaOrdini;
         }
 
-        public Task InsertOrdine(OrdineModel Ordine)
+        public async Task InsertOrdine(OrdineModel Ordine)
         {
-            throw new NotImplementedException();
+            string sql = @"INSERT INTO dbo.OrdiniTest (DataOrdine, NomeProdotto, Stato, Citta, PrezzoUnitario, Quantita)
+                           VALUES (@DataOrdine, @NomeProdotto, @Stato, @Citta, @PrezzoUnitario, @Quantita);";
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                await connection.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand(sql, connection))
+                {
+
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.AddWithValue("DataOrdine", Ordine.DataOrdine);
+                    cmd.Parameters.AddWithValue("NomeProdotto", Ordine.NomeProdotto);
+                    cmd.Parameters.AddWithValue("Stato", Ordine.Stato);
+                    cmd.Parameters.AddWithValue("Citta", Ordine.Citta);
+                    cmd.Parameters.AddWithValue("PrezzoUnitario", Ordine.PrezzoUnitario);
+                    cmd.Parameters.AddWithValue("Quantita", Ordine.Quantita);
+                    cmd.ExecuteNonQuery();
+
+                }
+
+            }
+
         }
 
         public Task<List<OrdineModel>> RicercaOrdine(OrdineModel Ordine)
@@ -94,9 +129,32 @@ namespace DataAccessLibrary
             throw new NotImplementedException();
         }
 
-        public Task UpdateOrdine(string id, OrdineModel Ordine)
+        public async Task UpdateOrdine(string id, OrdineModel Ordine)
         {
-            throw new NotImplementedException();
+            string sql = $@"UPDATE dbo.OrdiniTest 
+                            SET DataOrdine = @DataOrdine, NomeProdotto= @NomeProdotto, Stato= @Stato, Citta= @Citta, PrezzoUnitario= @PrezzoUnitario, Quantita= @Quantita
+                            WHERE Id = {id}
+                           ;";
+
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                await connection.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand(sql, connection))
+                {
+
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.AddWithValue("DataOrdine", Ordine.DataOrdine);
+                    cmd.Parameters.AddWithValue("NomeProdotto", Ordine.NomeProdotto);
+                    cmd.Parameters.AddWithValue("Stato", Ordine.Stato);
+                    cmd.Parameters.AddWithValue("Citta", Ordine.Citta);
+                    cmd.Parameters.AddWithValue("PrezzoUnitario", Ordine.PrezzoUnitario);
+                    cmd.Parameters.AddWithValue("Quantita", Ordine.Quantita);
+                    cmd.ExecuteNonQuery();
+
+                }
+
+            }
         }
     }
 }

@@ -60,7 +60,18 @@
                 </DxFormLayout>
             </FilterRowCellTemplate>        
         </DxGridDataColumn>
-        <DxGridDataColumn FieldName="NomeProdotto" TextAlignment="GridTextAlignment.Center" />
+        <DxGridDataColumn FieldName="NomeProdotto" TextAlignment="GridTextAlignment.Center" >
+@*            <FilterRowCellTemplate>
+                @{
+                    var items = TagBoxFilterRowUtils.GetValueByFunctionOperator(context.FilterCriteria, nameof(WeatherForecast.Summary));
+                }   
+        <DxTagBox TData="string"
+                  TValue="string"
+                  Data="Summaries"
+                  Values="items"
+                  ValuesChanged="(newValues) => { context.FilterCriteria = TagBoxFilterRowUtils.CreateFilterCriteriaByValues(newValues, nameof(WeatherForecast.Summary)); }" />
+            </FilterRowCellTemplate>   *@      
+        </DxGridDataColumn>
         <DxGridDataColumn FieldName="Stato" SortOrder="GridColumnSortOrder.Descending" TextAlignment="GridTextAlignment.Center" />
         <DxGridDataColumn FieldName="Citta" TextAlignment="GridTextAlignment.Center" />
         <DxGridDataColumn FieldName="PrezzoUnitario" Width="250" TextAlignment="GridTextAlignment.Center" > 
@@ -114,7 +125,7 @@
                                 <DxMaskedInput Value="@PrezzoUnitarioMaggiore"
                                        ValueChanged=@((int? newEndValue) => {
                                        EndChangedPrezzoUnitario(newEndValue);
-                                           filterContextQuantita.FilterCriteria = GetNewCriteriaPrezzoUnitario(filterContextQuantita);
+                                          filterContextQuantita.FilterCriteria = GetNewCriteriaPrezzoUnitario(filterContextQuantita);
                                        })
                                        Mask="@NumericMask.WholeNumber"
                                        NullText="Maggiore"
@@ -202,10 +213,10 @@
 
         if (ordineDaModificare is null)
         {
-            await _db.InsertOrdine(ordineModificato);
+            await _dbNoDapper.InsertOrdine(ordineModificato);
         }
         else
-            await _db.UpdateOrdine(ordineDaModificare.Id.ToString(), ordineModificato);
+            await _dbNoDapper.UpdateOrdine(ordineDaModificare.Id.ToString(), ordineModificato);
         await OnInitializedAsync();
     }
 
@@ -213,7 +224,7 @@
     {
         var ordineDeleted = (OrdineModel)e.DataItem;
 
-        await _db.DeleteOrdine(ordineDeleted);
+        await _dbNoDapper.DeleteOrdine(ordineDeleted);
         await OnInitializedAsync();
     }
 
