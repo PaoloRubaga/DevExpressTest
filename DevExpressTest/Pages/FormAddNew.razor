@@ -1,7 +1,168 @@
-﻿@page "/formAddNew"
+﻿@page "/formAddNew/{id}"
 
-<h3>FormAddNew</h3>
+@using DataAccessLibrary.Models
+@using System
+@using DataAccessLibrary
+@using DataAccessLibrary.Models
+@using DevExpressTest.Components
+@using DevExpress.Data.Filtering;
+
+@inject NavigationManager NavManager
+@inject IOrdiniDataNoDapper _dbNoDapper
+
+<div class="card cw-480">
+    <EditForm Model="@Data"
+              OnValidSubmit="@HandleValidSubmit"
+              OnInvalidSubmit="@HandleInvalidSubmit"
+              Context="EditFormContext">
+        <DataAnnotationsValidator />
+        <div class="card-header text-center py-3">
+            <h4>@scrittaBottone ordine</h4>
+        </div>
+        <div class="card-body">
+            <DxFormLayout>
+                <DxFormLayoutItem ColSpanMd="6" Caption="Data Ordine" CaptionPosition="CaptionPosition.Vertical">
+                    <DxDateEdit @bind-Date="@Data.DataOrdine"
+                                NullText="Data Ordine"
+                                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                Mask="@DateTimeMask.ShortDate" />
+                    <div class="text-danger">
+                        <ValidationMessage For="@(() => Data.DataOrdine)" />
+                    </div>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem ColSpanMd="6" Caption="Nome Prodotto" CaptionPosition="CaptionPosition.Vertical">
+                    <DxTextBox @bind-Text="@Data.NomeProdotto"
+                               NullText="NomeProdotto"
+                               ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+                    <div class="text-danger">
+                        <ValidationMessage For="@(() => Data.NomeProdotto)" />
+                    </div>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem ColSpanMd="6" Caption="Stato" CaptionPosition="CaptionPosition.Vertical">
+                    
+                    <DxTextBox @bind-Text="@Data.Stato"
+                               NullText="Stato"
+                               
+                               ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+                    <div class="text-danger">
+                        <ValidationMessage For="@(() => Data.Stato)" />
+                    </div>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem ColSpanMd="6" Caption="Città" CaptionPosition="CaptionPosition.Vertical">
+                    
+                    <DxTextBox @bind-Text="@Data.Citta"
+                               NullText="Citta"
+                               ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+                    <div class="text-danger">
+                        <ValidationMessage For="@(() => Data.Citta)" />
+                    </div>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem ColSpanMd="6" Caption="Prezzo Unitario" CaptionPosition="CaptionPosition.Vertical">
+                    
+                    <DxMaskedInput @bind-Value="@Data.PrezzoUnitario"
+                                   NullText="Prezzo unitario"
+                                   Mask="@NumericMask.WholeNumber"
+                                   ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+                    <div class="text-danger">
+                        <ValidationMessage For="@(() => Data.PrezzoUnitario)" />
+                    </div>
+                </DxFormLayoutItem>
+                
+                
+                <DxFormLayoutItem ColSpanMd="6" Caption="Quantità" CaptionPosition="CaptionPosition.Vertical">
+                    
+                    <DxMaskedInput @bind-Value="@Data.Quantita"
+                                   NullText="Prezzo unitario"
+                                   
+                                   Mask="@NumericMask.WholeNumber"
+                                   ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+                    <div class="text-danger">
+                        <ValidationMessage For="@(() => Data.Quantita)" />
+                    </div>
+                    
+                </DxFormLayoutItem>
+
+                <DxFormLayoutItem ColSpanMd="6">
+                    <br />
+                    <br />
+
+                    <DxButton CssClass="w-100"
+                              RenderStyle="ButtonRenderStyle.Primary"
+                              SubmitFormOnClick="true"
+                              Click="@ModificaOrdine"
+                              Text="@scrittaBottone" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem ColSpanMd="6">
+                    <DxButton CssClass="w-100"
+                              RenderStyle="ButtonRenderStyle.Primary"
+                              Click="@OnInitializedAsync"
+                              Text="Reset" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem ColSpanMd="6" >
+                    <DxButton CssClass="w-100"
+                              RenderStyle="ButtonRenderStyle.Primary"
+                              Click="@GoToPage"
+                              Text="Torna alla griglia" 
+                              />
+                </DxFormLayoutItem>
+                
+            </DxFormLayout>
+        </div>
+    </EditForm>
+</div>
+<p class="tm-8 cw-480 mt-2">
+    @FormSubmitResult
+</p>
 
 @code {
+    [Parameter]
+    public string? id { get; set; }
+    string FormSubmitResult = "";
+    OrdineModel Data { get; set; } = new OrdineModel();
+    string scrittaBottone;
 
+
+    void HandleValidSubmit()
+    {
+        if (Convert.ToInt32(id) != 0)
+            FormSubmitResult = "Modifica effettuata correttamente";
+        else
+            FormSubmitResult = "Aggiunta effettuata correttamente";
+        
+    }
+    void HandleInvalidSubmit()
+    {
+        FormSubmitResult = "Errore ";
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Data = await _dbNoDapper.GetOrdineById(Convert.ToInt32(id));
+
+        if (Convert.ToInt32(id) != 0)
+            scrittaBottone = "Modifica";      
+        else
+            scrittaBottone = "Aggiungi";
+    }
+
+
+    protected void GoToPage()
+    {
+        NavManager.NavigateTo("/grigliaOrdiniTest");
+    }
+
+    async Task ModificaOrdine()
+    {
+
+        
+
+        //if (ordineDaModificare is null)
+        //{
+        //    await _dbNoDapper.InsertOrdine(ordineModificato);
+        //}
+        //else
+
+        await _dbNoDapper.UpdateOrdine(id.ToString(), Data);
+        
+    }
 }

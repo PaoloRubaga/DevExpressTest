@@ -28,19 +28,6 @@ namespace DataAccessLibrary
             }
         }
 
-        //da capire
-        public async Task<List<T>> LoadData<T, U>(string storedProcedure, U parameters, string connectionStringName, CommandType commandType = CommandType.Text)
-        {
-            string connectionString = _config.GetConnectionString(connectionStringName) ?? string.Empty;
-
-            using IDbConnection connection = new SqlConnection(connectionString);
-            var rows = await connection.QueryAsync<T>(storedProcedure,
-                                                      parameters,
-                                                      commandType: commandType);
-
-            return rows.ToList();
-        }
-
         public async Task SaveData<T>(string sql, T parameters)
         {
             string connectionString = _config.GetConnectionString(ConnectionStringName);

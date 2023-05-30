@@ -38,10 +38,8 @@
         get => OperatorTypes.First((ot) => ot.Value == FilterContext.DataColumn.FilterRowOperatorType);
         set {
             FilterContext.Grid.BeginUpdate();
-            //if (value.Value != GridFilterRowOperatorType.Default)
-            //{
-                FilterContext.DataColumn.FilterRowOperatorType = value.Value;
-            //}
+            FilterContext.DataColumn.FilterRowOperatorType = value.Value;
+            
             FilterContext.Grid.EndUpdate();
             IsOpen = false;
         }

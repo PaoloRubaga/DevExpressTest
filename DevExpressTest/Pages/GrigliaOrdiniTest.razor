@@ -7,7 +7,7 @@
 @using DevExpressTest.Components
 @using DevExpress.Data.Filtering;
 
-
+@inject NavigationManager NavManager
 @inject IOrdineData _db
 @inject IOrdiniDataNoDapper _dbNoDapper
 
@@ -24,8 +24,9 @@
 
 
 <DxGrid Data=@listaOrdini
-        EditModelSaving="ModificaOrdine"
-        EditMode="GridEditMode.PopupEditForm"
+
+
+        EditStart="ModificaOrdineToPage"
         DataItemDeleting="EliminaOrdine"
         ShowFilterRow="true"
         PageSize="@pageSize"
@@ -99,7 +100,7 @@
                 </DxFormLayout>
             </FilterRowCellTemplate>
         </DxGridDataColumn>
-        <DxGridDataColumn FieldName="Quantita" FilterRowOperatorType="GridFilterRowOperatorType.Less" Width="200" TextAlignment="GridTextAlignment.Center">
+        <DxGridDataColumn FieldName="Quantita" FilterRowOperatorType="GridFilterRowOperatorType.Default" Width="200" TextAlignment="GridTextAlignment.Center">
             <FilterRowCellTemplate Context="filterContextQuantita">
                 <OperatorType FilterContext="@filterContextQuantita">
                     
@@ -186,7 +187,7 @@
     private int? PrezzoUnitarioMaggiore {get; set;}
     private int? QuantitaMinore {get; set;}
     private int? QuantitaMaggiore { get; set; }
-    
+
 
     class OperatorTypeWrapper
     {
@@ -218,6 +219,12 @@
         else
             await _dbNoDapper.UpdateOrdine(ordineDaModificare.Id.ToString(), ordineModificato);
         await OnInitializedAsync();
+    }
+
+    protected void ModificaOrdineToPage(GridEditStartEventArgs e)
+    {
+        var OrdineModified = (OrdineModel)e.DataItem;
+        NavManager.NavigateTo($"/formAddNew/{OrdineModified.Id}");
     }
 
     async Task EliminaOrdine(GridDataItemDeletingEventArgs e)

@@ -34,38 +34,40 @@ namespace DataAccessLibrary
             }
         }
 
-        //public async Task<List<OrdineModel>> GetOrdini()
-        //{
-        //    OrdineModel ordine = null;
-        //    List<OrdineModel> listaOrdini = new List<OrdineModel>();
-        //    string sql = "SELECT * FROM dbo.OrdiniTest";
+        public async Task<OrdineModel> GetOrdineById(int id)
+        {
+            string sql = @"SELECT DataOrdine, NomeProdotto, Stato, Citta, PrezzoUnitario, Quantita 
+                            FROM dbo.OrdiniTest 
+                            WHERE ID = @Id;";
+            OrdineModel ordine = new OrdineModel();
 
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
 
-        //    using (SqlConnection connection = new SqlConnection(ConnectionString))
-        //    {
+                await connection.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand(sql, connection))
+                {
 
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.AddWithValue("Id", id);
 
-        //        SqlCommand cmd = new SqlCommand("GetListaOrdini", connection);
-        //        cmd.Parameters.Clear();
-        //        SqlDataReader reader = cmd.ExecuteReader();
-        //        while (reader.Read())
-        //        {
-        //            ordine = new OrdineModel();
-        //            ordine.Id = Convert.ToInt32(reader["Id"]);
-        //            ordine.DataOrdine = Convert.ToDateTime(reader["DataOrdine"]);
-        //            ordine.NomeProdotto = reader["NomeProdotto"].ToString();
-        //            ordine.Stato = reader["Stato"].ToString();
-        //            ordine.Citta = reader["Citta"].ToString();
-        //            ordine.PrezzoUnitario = Convert.ToInt32(reader["PrezzoUnitario"]);
-        //            ordine.Quantita = Convert.ToInt32(reader["Quantita"]);
-        //            listaOrdini.Add(ordine);
-        //        }
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-        //        reader.Close();
-        //    }
+                    if (reader.Read())
+                    {
+                        ordine.DataOrdine = Convert.ToDateTime(reader["DataOrdine"]);
+                        ordine.NomeProdotto = reader["NomeProdotto"].ToString();
+                        ordine.Stato = reader["Stato"].ToString();
+                        ordine.Citta = reader["Citta"].ToString();
+                        ordine.PrezzoUnitario = Convert.ToInt32(reader["PrezzoUnitario"]);
+                        ordine.Quantita = Convert.ToInt32(reader["Quantita"]);
+                    }
+                }
+            }
 
-        //    return listaOrdini;
-        //}
+            return ordine;
+        }
+
 
         public async Task<List<OrdineModel>> GetOrdini()
         {
