@@ -3,31 +3,35 @@
 @using DevExpressTest.Data
 @inject WeatherForecastService ForecastService
 
-<h2>DevExpress Grid</h2>
-
-<p class="pb-2 pt-2 mw-1100">The DevExpress Grid for Blazor allows you to display and manage data via a tabular (rows/columns) UI metaphor. 
-This page uses our Blazor Grid component to display weather forecast values.</p>
-
-@if (forecasts == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <DxGrid Data="@forecasts"
-                CssClass="mw-1100">
-        <Columns>
-            <DxGridDataColumn Caption="Date" FieldName="Date" />
-            <DxGridDataColumn Caption="Temperature" FieldName="TemperatureF" />
-        </Columns>
-    </DxGrid>
-}
+<DxGrid Data="@forecasts"
+        ShowFilterRow="true"
+        CssClass="mw-1100">
+    <Columns>
+        <DxGridDataColumn Caption="Date" FieldName="Date" />
+        <DxGridDataColumn Caption="Temperature" FieldName="TemperatureF" />
+        <DxGridDataColumn FieldName="SummaryString">
+            <FilterRowCellTemplate>
+                @{
+                    var items = TagBoxFilterRowUtils.GetValueByFunctionOperator(context.FilterCriteria, nameof(WeatherForecast.Summary));
+                }
+                <DxTagBox TData="string"
+                          TValue="string"
+                          Data="Summaries"
+                          Values="items"
+                          ValuesChanged="(newValues) => { context.FilterCriteria = TagBoxFilterRowUtils.CreateFilterCriteriaByValues(newValues, nameof(WeatherForecast.Summary)); }" />
+            </FilterRowCellTemplate>
+        </DxGridDataColumn>
+    </Columns>
+</DxGrid>
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private WeatherForecast[] forecasts;
+
+    List<string> Summaries = new List<string>();
 
     protected override async Task OnInitializedAsync()
     {
         forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        Summaries = WeatherForecastService.Summaries.ToList();
     }
 }

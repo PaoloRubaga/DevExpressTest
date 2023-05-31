@@ -3,6 +3,8 @@
 @using System.Collections.Generic;
 @using DataAccessLibrary
 @using DataAccessLibrary.Models
+@using DevExpressTest.Components
+@using DevExpress.Data.Filtering;
 
 @inject IDispositivoData _db
 
@@ -31,7 +33,18 @@
         <DxGridDataColumn FieldName="Matricola" SortIndex="0" SortOrder="GridColumnSortOrder.Descending" >
             
         </DxGridDataColumn>
-        <DxGridDataColumn FieldName="Descrizione" />
+        <DxGridDataColumn FieldName="Descrizione" > 
+            <FilterRowCellTemplate>
+                @{
+                    var items = TagBoxFilterRowUtils.GetValueByFunctionOperator(context.FilterCriteria, nameof(DispositivoModel.Descrizione));
+                }
+                <DxTagBox TData="string"
+                          TValue="string"
+                          Data="Descrizione"
+                          Values="items"
+                          ValuesChanged="(newValues) => { context.FilterCriteria = TagBoxFilterRowUtils.CreateFilterCriteriaByValues(newValues, nameof(DispositivoModel.Descrizione)); }" />
+            </FilterRowCellTemplate>
+        </DxGridDataColumn>
         <DxGridDataColumn FieldName="Modello" AllowSort = "false"/>
         <DxGridCommandColumn />
 
@@ -44,6 +57,7 @@
         }
         <DxFormLayout>
             <DxFormLayoutItem Caption="Matricola:">
+
                 <DxTextBox @bind-Text="@dispositivoModificato.Matricola" />
             </DxFormLayoutItem>
             <DxFormLayoutItem Caption="Descrizione:">
@@ -65,11 +79,16 @@
     private DispositivoModel dispositivoDaModificare;
     private DispositivoModel dispositivoModificato;
     private int pageSize = 8;
-
+    List<string> Descrizione = new List<string>();
 
     protected override async Task OnInitializedAsync()
     {
         listaDispositivi = await _db.GetDispositivo();
+        foreach (DispositivoModel disp in listaDispositivi)
+        {
+            if (!Descrizione.Contains(disp.Descrizione))
+                Descrizione.Add(disp.Descrizione);
+        }
     }
 
     async Task ModificaDispositivoDX(GridEditModelSavingEventArgs e)

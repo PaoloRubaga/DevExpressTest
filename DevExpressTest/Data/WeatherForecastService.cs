@@ -1,12 +1,8 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace DevExpressTest.Data
 {
     public class WeatherForecastService
     {
-        private static readonly string[] Summaries = new[]
+        public static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
@@ -18,7 +14,7 @@ namespace DevExpressTest.Data
             {
                 Date = startDate.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
+                Summary = new List<string>() { Summaries[rng.Next(Summaries.Length - 1)], Summaries[rng.Next(Summaries.Length - 1) + 1] }
             }).ToArray());
         }
     }

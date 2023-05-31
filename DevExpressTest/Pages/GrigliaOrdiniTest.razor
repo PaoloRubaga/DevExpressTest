@@ -1,11 +1,10 @@
-﻿
-@page "/grigliaOrdiniTest"
-
+﻿@page "/grigliaOrdiniTest"
 
 @using DataAccessLibrary
 @using DataAccessLibrary.Models
 @using DevExpressTest.Components
-@using DevExpress.Data.Filtering;
+@using DevExpress.Data.Filtering
+@using DevExpress.Data.Filtering.Helpers
 
 @inject NavigationManager NavManager
 @inject IOrdineData _db
@@ -13,8 +12,6 @@
 
 
 <h3>GigliaOrdiniTest</h3>
-
-
 
 <DxButton Text="Seleziona Colonne"
           RenderStyle="ButtonRenderStyle.Secondary"
@@ -35,10 +32,10 @@
     <Columns>
 
         <DxGridSelectionColumn Width="50" />
-        <DxGridDataColumn FieldName="DataOrdine" SortIndex="0" Width="300" TextAlignment="GridTextAlignment.Center" >
+        <DxGridDataColumn FieldName="DataOrdine" SortIndex="0" Width="200" TextAlignment="GridTextAlignment.Center" >
             <FilterRowCellTemplate Context="filterContext">
                 <DxFormLayout ItemCaptionAlignment="ItemCaptionAlignment.None">
-                    <DxFormLayoutItem>
+                    <DxFormLayoutItem ColSpanMd="12">
                         <DxDateEdit Date="@StartDate"
                                     DateChanged=@((DateTime? newStartDateValue) => {
                                     StartChanged(newStartDateValue);
@@ -47,8 +44,7 @@
                                     NullText="Data Inizio"
                                     ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
                         </DxDateEdit>
-                    </DxFormLayoutItem>
-                    <DxFormLayoutItem>
+                    
                         <DxDateEdit Date="@EndDate"
                                     DateChanged=@((DateTime? newEndDateValue) => {
                                     EndChanged(newEndDateValue);
@@ -62,23 +58,28 @@
             </FilterRowCellTemplate>        
         </DxGridDataColumn>
         <DxGridDataColumn FieldName="NomeProdotto" TextAlignment="GridTextAlignment.Center" >
-@*            <FilterRowCellTemplate>
-                @{
-                    var items = TagBoxFilterRowUtils.GetValueByFunctionOperator(context.FilterCriteria, nameof(WeatherForecast.Summary));
-                }   
-        <DxTagBox TData="string"
-                  TValue="string"
-                  Data="Summaries"
-                  Values="items"
-                  ValuesChanged="(newValues) => { context.FilterCriteria = TagBoxFilterRowUtils.CreateFilterCriteriaByValues(newValues, nameof(WeatherForecast.Summary)); }" />
-            </FilterRowCellTemplate>   *@      
+            <FilterRowCellTemplate>
+                <DxTagBox TData="string"
+                          TValue="string"
+                          Data="NomeProdotto"
+                          Values="GetTagBoxValues(context)"
+                          ValuesChanged="newValues => UpdateCriteria(newValues, context)" />
+            </FilterRowCellTemplate>
         </DxGridDataColumn>
-        <DxGridDataColumn FieldName="Stato" SortOrder="GridColumnSortOrder.Descending" TextAlignment="GridTextAlignment.Center" />
+        <DxGridDataColumn FieldName="Stato" SortOrder="GridColumnSortOrder.Descending" TextAlignment="GridTextAlignment.Center" >
+            <FilterRowCellTemplate>
+                <DxTagBox TData="string"
+                          TValue="string"
+                          Data="Countries"
+                          Values="GetTagBoxValues(context)"
+                          ValuesChanged="newValues => UpdateCriteria(newValues, context)" />
+            </FilterRowCellTemplate>
+        </DxGridDataColumn>
         <DxGridDataColumn FieldName="Citta" TextAlignment="GridTextAlignment.Center" />
-        <DxGridDataColumn FieldName="PrezzoUnitario" Width="250" TextAlignment="GridTextAlignment.Center" > 
+        <DxGridDataColumn FieldName="PrezzoUnitario" Width="150" TextAlignment="GridTextAlignment.Center" > 
             <FilterRowCellTemplate Context="filterContextPrezzoUnitario">
                 <DxFormLayout ItemCaptionAlignment="ItemCaptionAlignment.None">
-                    <DxFormLayoutItem ColSpanMd="10">
+                    <DxFormLayoutItem ColSpanMd="12">
                         <DxMaskedInput Value="@PrezzoUnitarioMinore"
                                        ValueChanged=@((int? newStartValue) => {
                                        StartChangedPrezzoUnitario(newStartValue);
@@ -100,7 +101,7 @@
                 </DxFormLayout>
             </FilterRowCellTemplate>
         </DxGridDataColumn>
-        <DxGridDataColumn FieldName="Quantita" FilterRowOperatorType="GridFilterRowOperatorType.Default" Width="200" TextAlignment="GridTextAlignment.Center">
+        <DxGridDataColumn FieldName="Quantita" FilterRowOperatorType="GridFilterRowOperatorType.Default" Width="180" TextAlignment="GridTextAlignment.Center">
             <FilterRowCellTemplate Context="filterContextQuantita">
                 <OperatorType FilterContext="@filterContextQuantita">
                     
@@ -187,7 +188,59 @@
     private int? PrezzoUnitarioMaggiore {get; set;}
     private int? QuantitaMinore {get; set;}
     private int? QuantitaMaggiore { get; set; }
+    List<string> NomeProdotto = new List<string>();
+    List<string> Countries = new List<string>();
+    IEnumerable<string> Cities { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        listaOrdini = await _dbNoDapper.GetOrdini();
+        foreach (OrdineModel order in listaOrdini)
+        {
+            if (!NomeProdotto.Contains(order.NomeProdotto))
+                NomeProdotto.Add(order.NomeProdotto);
+            if (!Countries.Contains(order.Stato))
+                Countries.Add(order.Stato);
+        }
+        //Cities = DbContext.GetOrdini().Select(x => x.Citta).Distinct().ToArray();
+        //controllare esempio :
+        //https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid.SetFilterCriteria(DevExpress.Data.Filtering.CriteriaOperator)
+
+    }
+
+    IEnumerable<string> GetTagBoxValues(GridDataColumnFilterRowCellTemplateContext context)
+    {
+        if (context.FilterCriteria.ReferenceEqualsNull())
+            return null;
+        if (!context.FilterCriteria.Is<InOperator>(out var inOperator))
+            return null;
+        if (!inOperator.LeftOperand.Is<OperandProperty>(out var leftOperand))
+            return null;
+        if (leftOperand.PropertyName != context.DataColumn.FieldName)
+            return null;
+
+        var result = new List<string>();
+        foreach (var operand in inOperator.Operands)
+        {
+            if (!operand.Is<OperandValue>(out var operandValue))
+                return null;
+            result.Add((string)operandValue.Value);
+        }
+        return result;
+    }
+
+    void UpdateCriteria(IEnumerable<string> newValues, GridDataColumnFilterRowCellTemplateContext context)
+    {
+        if (!newValues.Any())
+        {
+            context.FilterCriteria = null;
+            return;
+        }
+        context.FilterCriteria = new InOperator(
+            new OperandProperty(context.DataColumn.FieldName),
+            newValues.Select(value => new OperandValue(value))
+        );
+    }
 
     class OperatorTypeWrapper
     {
@@ -201,11 +254,6 @@
         public string IconPath => $"images/filterIcons/{DisplayText}.svg";
     };
 
-
-    protected override async Task OnInitializedAsync()
-    {
-        listaOrdini =  await _dbNoDapper.GetOrdini();
-    }
 
     async Task ModificaOrdine(GridEditModelSavingEventArgs e)
     {
@@ -224,7 +272,10 @@
     protected void ModificaOrdineToPage(GridEditStartEventArgs e)
     {
         var OrdineModified = (OrdineModel)e.DataItem;
-        NavManager.NavigateTo($"/formAddNew/{OrdineModified.Id}");
+        if(OrdineModified is null)
+            NavManager.NavigateTo($"/formAddNew/{0}");           
+        else
+            NavManager.NavigateTo($"/formAddNew/{OrdineModified.Id}");
     }
 
     async Task EliminaOrdine(GridDataItemDeletingEventArgs e)

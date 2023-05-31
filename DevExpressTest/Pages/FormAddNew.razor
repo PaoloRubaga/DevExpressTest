@@ -128,7 +128,7 @@
             FormSubmitResult = "Modifica effettuata correttamente";
         else
             FormSubmitResult = "Aggiunta effettuata correttamente";
-        
+
     }
     void HandleInvalidSubmit()
     {
@@ -137,12 +137,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Data = await _dbNoDapper.GetOrdineById(Convert.ToInt32(id));
-
         if (Convert.ToInt32(id) != 0)
-            scrittaBottone = "Modifica";      
+        {
+            Data = await _dbNoDapper.GetOrdineById(Convert.ToInt32(id));
+            scrittaBottone = "Modifica";
+        }
         else
+        {
             scrittaBottone = "Aggiungi";
+        }
     }
 
 
@@ -152,17 +155,12 @@
     }
 
     async Task ModificaOrdine()
-    {
-
-        
-
-        //if (ordineDaModificare is null)
-        //{
-        //    await _dbNoDapper.InsertOrdine(ordineModificato);
-        //}
-        //else
-
-        await _dbNoDapper.UpdateOrdine(id.ToString(), Data);
-        
+    {      
+        if (Convert.ToInt32(id) != 0)
+        {
+            await _dbNoDapper.UpdateOrdine(id.ToString(), Data);
+        }
+        else
+            await _dbNoDapper.InsertOrdine(Data);   
     }
 }
