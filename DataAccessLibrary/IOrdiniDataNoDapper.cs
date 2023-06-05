@@ -10,5 +10,6 @@ namespace DataAccessLibrary
         Task UpdateOrdine(string id, OrdineModel Ordine);
         Task DeleteOrdine(OrdineModel Ordine);
         Task<List<OrdineModel>> RicercaOrdine(OrdineModel Ordine);
+        Task<List<StatoOrdineModel>> GetStatoOrdineById();
     }
 }

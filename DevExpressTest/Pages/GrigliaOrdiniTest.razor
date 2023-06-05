@@ -5,6 +5,9 @@
 @using DevExpressTest.Components
 @using DevExpress.Data.Filtering
 @using DevExpress.Data.Filtering.Helpers
+@using DevExpress.Blazor
+@using DevExpress.Blazor.Internal
+
 
 @inject NavigationManager NavManager
 @inject IOrdineData _db
@@ -21,7 +24,7 @@
 
 
 <DxGrid Data=@listaOrdini
-
+        UnboundColumnData="Grid_CustomUnboundColumnData"
 
         EditStart="ModificaOrdineToPage"
         DataItemDeleting="EliminaOrdine"
@@ -140,8 +143,10 @@
                 </OperatorType>
             </FilterRowCellTemplate>
         </DxGridDataColumn>
-        <DxGridCommandColumn Width="80" />
+        <DxGridDataColumn FieldName="Stato Ordine" UnboundType="GridUnboundColumnType.String" />
+        <DxGridCommandColumn Width="80" >
 
+        </DxGridCommandColumn>
     </Columns>
     <EditFormTemplate Context="editFormContent ">
         @{
@@ -191,6 +196,8 @@
     List<string> NomeProdotto = new List<string>();
     List<string> Countries = new List<string>();
     IEnumerable<string> Cities { get; set; }
+    List<StatoOrdineModel> lookupList;
+    IGridCommandColumn CommandColumn { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -202,10 +209,26 @@
             if (!Countries.Contains(order.Stato))
                 Countries.Add(order.Stato);
         }
+
+        lookupList = await _dbNoDapper.GetStatoOrdineById();
+        
         //Cities = DbContext.GetOrdini().Select(x => x.Citta).Distinct().ToArray();
         //controllare esempio :
         //https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid.SetFilterCriteria(DevExpress.Data.Filtering.CriteriaOperator)
 
+    }
+
+
+    void Grid_CustomUnboundColumnData(GridUnboundColumnDataEventArgs e)
+    {
+
+        if (e.FieldName == "Stato Ordine")
+        {
+            int idDaConvertire = Convert.ToInt32(e.GetRowValue("IdStatoOrdine"));
+            OrdineModel riga = (OrdineModel)e.DataItem;
+            var lookupItem = lookupList.FirstOrDefault(x => x.Id == riga.IdStatoOrdine);
+            e.Value = lookupItem.StatoOrdine;
+        }
     }
 
     IEnumerable<string> GetTagBoxValues(GridDataColumnFilterRowCellTemplateContext context)

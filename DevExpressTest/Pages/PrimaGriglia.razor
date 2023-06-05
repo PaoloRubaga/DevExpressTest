@@ -19,17 +19,17 @@
 <DxGrid Data=@listaDispositivi
     EditModelSaving="ModificaDispositivoDX"
     EditMode="GridEditMode.PopupEditForm"
-        DataItemDeleting="EliminaDispositivoDX"
-        ShowFilterRow="true"
-    @ref="Grid">
+    DataItemDeleting="EliminaDispositivoDX"
+    ShowFilterRow="true"
+    @ref="Grid"
+    DetailRowDisplayMode="GridDetailRowDisplayMode.Always"
+    CustomizeElement="Grid_CustomizeElement">
     <Columns>
-        
         <DxGridSelectionColumn />
         <DxGridDataColumn FieldName="Matricola" />
         <DxGridDataColumn FieldName="Descrizione"  />
         <DxGridDataColumn FieldName="Modello"  />
         <DxGridCommandColumn />
-        
     </Columns>
     <EditFormTemplate Context="editFormContent ">
         @{
@@ -72,6 +72,11 @@
         listaDispositivi = await _db.GetDispositivo();
     }
 
+    void Grid_CustomizeElement(GridCustomizeElementEventArgs e) {
+        if(e.ElementType == GridElementType.DetailCell) {
+            e.Style = "padding: 0.5rem; opacity: 0.75";
+        }
+    }
 
     async Task ModificaDispositivoDX(GridEditModelSavingEventArgs e)
     {
@@ -168,12 +173,6 @@
             InvokeAsync(StateHasChanged);
         }
     }
-
-    void OnClick2()
-    {
-        Grid.ShowColumnChooser(".column-chooser-button");
-    }
-
 
 
 }

@@ -9,5 +9,6 @@
         public string Citta { get; set; }
         public int PrezzoUnitario { get; set; }
         public int Quantita { get; set; }
+        public int IdStatoOrdine { get; set; }
     }
 }

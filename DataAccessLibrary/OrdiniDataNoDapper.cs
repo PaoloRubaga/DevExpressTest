@@ -36,7 +36,7 @@ namespace DataAccessLibrary
 
         public async Task<OrdineModel> GetOrdineById(int id)
         {
-            string sql = @"SELECT DataOrdine, NomeProdotto, Stato, Citta, PrezzoUnitario, Quantita 
+            string sql = @"SELECT DataOrdine, NomeProdotto, Stato, Citta, PrezzoUnitario, Quantita, IdStatoOrdine 
                             FROM dbo.OrdiniTest 
                             WHERE ID = @Id;";
             OrdineModel ordine = new OrdineModel();
@@ -61,6 +61,7 @@ namespace DataAccessLibrary
                         ordine.Citta = reader["Citta"].ToString();
                         ordine.PrezzoUnitario = Convert.ToInt32(reader["PrezzoUnitario"]);
                         ordine.Quantita = Convert.ToInt32(reader["Quantita"]);
+                        ordine.IdStatoOrdine = Convert.ToInt32(reader["IdStatoOrdine"]);
                     }
                 }
             }
@@ -91,6 +92,7 @@ namespace DataAccessLibrary
                         ordine.Citta = reader["Citta"].ToString();
                         ordine.PrezzoUnitario = Convert.ToInt32(reader["PrezzoUnitario"]);
                         ordine.Quantita = Convert.ToInt32(reader["Quantita"]);
+                        ordine.IdStatoOrdine = Convert.ToInt32(reader["IdStatoOrdine"]);
                         listaOrdini.Add(ordine);
                     }
                     reader.Close();
@@ -103,7 +105,7 @@ namespace DataAccessLibrary
         public async Task InsertOrdine(OrdineModel Ordine)
         {
             string sql = @"INSERT INTO dbo.OrdiniTest (DataOrdine, NomeProdotto, Stato, Citta, PrezzoUnitario, Quantita)
-                           VALUES (@DataOrdine, @NomeProdotto, @Stato, @Citta, @PrezzoUnitario, @Quantita);";
+                           VALUES (@DataOrdine, @NomeProdotto, @Stato, @Citta, @PrezzoUnitario, @Quantita, @IdStatoOrdine);";
 
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
@@ -118,6 +120,7 @@ namespace DataAccessLibrary
                     cmd.Parameters.AddWithValue("Citta", Ordine.Citta);
                     cmd.Parameters.AddWithValue("PrezzoUnitario", Ordine.PrezzoUnitario);
                     cmd.Parameters.AddWithValue("Quantita", Ordine.Quantita);
+                    cmd.Parameters.AddWithValue("IdStatoOrdine", Ordine.IdStatoOrdine);
                     cmd.ExecuteNonQuery();
 
                 }
@@ -134,7 +137,7 @@ namespace DataAccessLibrary
         public async Task UpdateOrdine(string id, OrdineModel Ordine)
         {
             string sql = $@"UPDATE dbo.OrdiniTest 
-                            SET DataOrdine = @DataOrdine, NomeProdotto= @NomeProdotto, Stato= @Stato, Citta= @Citta, PrezzoUnitario= @PrezzoUnitario, Quantita= @Quantita
+                            SET DataOrdine = @DataOrdine, NomeProdotto= @NomeProdotto, Stato= @Stato, Citta= @Citta, PrezzoUnitario= @PrezzoUnitario, Quantita= @Quantita, IdStatoOrdine = @IdStatoOrdine
                             WHERE Id = {id}
                            ;";
 
@@ -152,11 +155,41 @@ namespace DataAccessLibrary
                     cmd.Parameters.AddWithValue("Citta", Ordine.Citta);
                     cmd.Parameters.AddWithValue("PrezzoUnitario", Ordine.PrezzoUnitario);
                     cmd.Parameters.AddWithValue("Quantita", Ordine.Quantita);
+                    cmd.Parameters.AddWithValue("IdStatoOrdine", Ordine.IdStatoOrdine);
                     cmd.ExecuteNonQuery();
 
                 }
 
             }
+        }
+
+        public async Task<List<StatoOrdineModel>> GetStatoOrdineById()
+        {
+            Dictionary<int, string> statiOrdine = new Dictionary<int, string>();
+            List<StatoOrdineModel> listaStatiOrdine = new List<StatoOrdineModel>();
+
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                string sql = "SELECT * FROM dbo.StatoOrdine";
+
+                await connection.OpenAsync();
+                using (SqlCommand cmd = new SqlCommand(sql, connection))
+                {
+                    SqlDataReader reader = await cmd.ExecuteReaderAsync();
+                    while (reader.Read())
+                    {
+                        StatoOrdineModel StatoOrdine = new StatoOrdineModel();
+                        StatoOrdine.Id = Convert.ToInt32(reader["Id"]);
+                        StatoOrdine.StatoOrdine = reader["StatoOrdine"].ToString();
+                        listaStatiOrdine.Add(StatoOrdine);
+                    }
+                    reader.Close();
+                }
+            }
+
+            return listaStatiOrdine;
+
         }
     }
 }

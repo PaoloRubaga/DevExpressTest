@@ -39,7 +39,7 @@
         set {
             FilterContext.Grid.BeginUpdate();
             FilterContext.DataColumn.FilterRowOperatorType = value.Value;
-            
+
             FilterContext.Grid.EndUpdate();
             IsOpen = false;
         }
@@ -54,13 +54,33 @@
     }
 
     class OperatorTypeWrapper {
-        public OperatorTypeWrapper(GridFilterRowOperatorType value, string displayText) {
+        public OperatorTypeWrapper(GridFilterRowOperatorType value, string originalText) {
             Value = value;
-            DisplayText = displayText;
+            OriginalText = originalText;
+            DisplayText = GetTranslatedName(originalText);
         }
         public GridFilterRowOperatorType Value { get; set; }
         public string DisplayText { get; set; }
-        public string IconPath => $"images/filterIcons/{DisplayText}.svg";
+        public string OriginalText { get; set; }
+        public string IconPath => $"images/filterIcons/{OriginalText}.svg";
+
+        public string GetTranslatedName(string originalText)
+        {
+            Dictionary<string, string> operatoriTranslated = new Dictionary <string, string>();
+            operatoriTranslated.Add(GridFilterRowOperatorType.Default.ToString(), "Compreso tra");
+            operatoriTranslated.Add(GridFilterRowOperatorType.Equal.ToString(), "Uguale a");
+            operatoriTranslated.Add(GridFilterRowOperatorType.NotEqual.ToString(), "Diverso da");
+            operatoriTranslated.Add(GridFilterRowOperatorType.StartsWith.ToString(), "Inizia con");
+            operatoriTranslated.Add(GridFilterRowOperatorType.EndsWith.ToString(), "Finisce con");
+            operatoriTranslated.Add(GridFilterRowOperatorType.Contains.ToString(), "Contiene");
+            operatoriTranslated.Add(GridFilterRowOperatorType.Less.ToString(), "Minore di");
+            operatoriTranslated.Add(GridFilterRowOperatorType.LessOrEqual.ToString(), "Minore o Uguale di");
+            operatoriTranslated.Add(GridFilterRowOperatorType.Greater.ToString(), "Maggiore di ");
+            operatoriTranslated.Add(GridFilterRowOperatorType.GreaterOrEqual.ToString(), "Maggiore o Uguale di ");
+
+            return operatoriTranslated[originalText];
+        }
+
     };
 
 }
