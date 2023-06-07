@@ -116,29 +116,26 @@
                     }
                     else
                     {
-
                         <DxFormLayout ItemCaptionAlignment="ItemCaptionAlignment.None">
                             <DxFormLayoutItem ColSpanMd="12">
-                                <DxMaskedInput Value="@PrezzoUnitarioMinore"
+                                <DxMaskedInput Value="@QuantitaMinore"
                                        ValueChanged=@((int? newStartValue) => {
-                                       StartChangedPrezzoUnitario(newStartValue);
-                                           filterContextQuantita.FilterCriteria = GetNewCriteriaPrezzoUnitario(filterContextQuantita);
+                                           StartChangedQuantita(newStartValue);
+                                           filterContextQuantita.FilterCriteria = GetNewCriteriaQuantita(filterContextQuantita);
                                        })
                                         Mask="@NumericMask.WholeNumber" 
                                         NullText="Minore"
                                         ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
-                                <DxMaskedInput Value="@PrezzoUnitarioMaggiore"
+                                <DxMaskedInput Value="@QuantitaMaggiore"
                                        ValueChanged=@((int? newEndValue) => {
-                                       EndChangedPrezzoUnitario(newEndValue);
-                                          filterContextQuantita.FilterCriteria = GetNewCriteriaPrezzoUnitario(filterContextQuantita);
+                                           EndChangedQuantita(newEndValue);
+                                           filterContextQuantita.FilterCriteria = GetNewCriteriaQuantita(filterContextQuantita);
                                        })
                                        Mask="@NumericMask.WholeNumber"
                                        NullText="Maggiore"
                                        ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
-
                             </DxFormLayoutItem>
                         </DxFormLayout>
-            
                     }
                 </OperatorType>
             </FilterRowCellTemplate>
@@ -199,6 +196,8 @@
     List<StatoOrdineModel> lookupList;
     IGridCommandColumn CommandColumn { get; set; }
 
+
+    //operazioni all'avvio 
     protected override async Task OnInitializedAsync()
     {
         listaOrdini = await _dbNoDapper.GetOrdini();
@@ -218,10 +217,9 @@
 
     }
 
-
+    //per tabella di lookup
     void Grid_CustomUnboundColumnData(GridUnboundColumnDataEventArgs e)
     {
-
         if (e.FieldName == "Stato Ordine")
         {
             int idDaConvertire = Convert.ToInt32(e.GetRowValue("IdStatoOrdine"));
@@ -231,6 +229,7 @@
         }
     }
 
+    //per impostare la lista delle operazioni sui filtri di tipo intero
     IEnumerable<string> GetTagBoxValues(GridDataColumnFilterRowCellTemplateContext context)
     {
         if (context.FilterCriteria.ReferenceEqualsNull())
@@ -252,6 +251,7 @@
         return result;
     }
 
+    //una volta selezionato il tipo di operazione aggiorno i filtri
     void UpdateCriteria(IEnumerable<string> newValues, GridDataColumnFilterRowCellTemplateContext context)
     {
         if (!newValues.Any())
@@ -265,22 +265,8 @@
         );
     }
 
-    class OperatorTypeWrapper
-    {
-        public OperatorTypeWrapper(GridFilterRowOperatorType value, string displayText)
-        {
-            Value = value;
-            DisplayText = displayText;
-        }
-        public GridFilterRowOperatorType Value { get; set; }
-        public string DisplayText { get; set; }
-        public string IconPath => $"images/filterIcons/{DisplayText}.svg";
-    };
-
-
     async Task ModificaOrdine(GridEditModelSavingEventArgs e)
     {
-
         var OrdineModified = (OrdineModel)e.EditModel;
 
         if (ordineDaModificare is null)
@@ -332,6 +318,7 @@
         else
             return null;
     }
+
     void StartChanged(DateTime? newDate)
     {
         StartDate = newDate;
@@ -342,6 +329,7 @@
                 EndDate = StartDate.Value.AddDays(MinDuration);
         }
     }
+
     void EndChanged(DateTime? newDate)
     {
         EndDate = newDate;
@@ -352,6 +340,7 @@
                 StartDate = EndDate.Value.AddDays(-MinDuration);
         }
     }
+
     private CriteriaOperator GetNewCriteriaPrezzoUnitario(GridDataColumnFilterRowCellTemplateContext context)
     {
         if (PrezzoUnitarioMinore.HasValue && PrezzoUnitarioMaggiore.HasValue)
@@ -364,6 +353,7 @@
         else
             return null;
     }
+
     void StartChangedPrezzoUnitario(int? newStart)
     {
         PrezzoUnitarioMinore = newStart;
@@ -374,6 +364,7 @@
                 PrezzoUnitarioMaggiore = PrezzoUnitarioMinore + MinDuration;
         } 
     }
+
     void EndChangedPrezzoUnitario(int? newEnd)
     {
         PrezzoUnitarioMaggiore = newEnd;
@@ -385,7 +376,37 @@
         }
     }
 
+    private CriteriaOperator GetNewCriteriaQuantita(GridDataColumnFilterRowCellTemplateContext context)
+    {
+        if (QuantitaMinore.HasValue && QuantitaMaggiore.HasValue)
+        {
+            var operandProperty = new OperandProperty(context.DataColumn.FieldName);
+            var startDate = QuantitaMinore.Value;
+            var endDate = QuantitaMaggiore.Value;
+            return operandProperty >= startDate & operandProperty <= endDate;
+        }
+        else
+            return null;
+    }
 
+    void StartChangedQuantita(int? newStart)
+    {
+        QuantitaMinore = newStart;
+        if (QuantitaMinore.HasValue)
+        {   
+            if (QuantitaMaggiore.HasValue && (QuantitaMaggiore - QuantitaMinore) < MinDuration)
+                QuantitaMaggiore = QuantitaMinore + MinDuration;
+        } 
+    }
 
+    void EndChangedQuantita(int? newEnd)
+    {
+        QuantitaMaggiore = newEnd;
+        if (QuantitaMaggiore.HasValue)
+        {
+            if (QuantitaMinore.HasValue && (QuantitaMaggiore - QuantitaMinore) < MinDuration)
+                QuantitaMinore = QuantitaMinore - MinDuration;
+        }
+    }
 
 }

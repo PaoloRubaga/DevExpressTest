@@ -1,7 +1,17 @@
 ﻿@page "/grid"
 
 @using DevExpressTest.Data
+@using Microsoft.AspNetCore.Components;
+@using Microsoft.JSInterop;
+@using System.Threading.Tasks;
+
 @inject WeatherForecastService ForecastService
+@inject IJSRuntime JS
+
+@implements IAsyncDisposable
+
+
+<h1>Window width: @WindowWidth</h1>
 
 <DxGrid Data="@forecasts"
         ShowFilterRow="true"
@@ -33,5 +43,39 @@
     {
         forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
         Summaries = WeatherForecastService.Summaries.ToList();
+    }
+
+    private DotNetObjectReference<Grid> _objectReference;
+    public int WindowWidth { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _objectReference = DotNetObjectReference.Create(this);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InitWindowWidthListener();
+        }
+    }
+
+    [JSInvokable]
+    public void UpdateWindowWidth(int windowWidth)
+    {
+        WindowWidth = windowWidth;
+        StateHasChanged();
+    }
+
+    private async Task InitWindowWidthListener()
+    {
+        await JS.InvokeVoidAsync("AddWindowWidthListener", _objectReference);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await JS.InvokeVoidAsync("RemoveWindowWidthListener", _objectReference);
+        _objectReference?.Dispose();
     }
 }

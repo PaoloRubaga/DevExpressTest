@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Q6+B6bI8f2RtNV/U8Fm24WUXsn56cS5dg2ht41+Wl28=",
+  "Hash": "GObFHDb3bJ0jCOeXxvAUKfEZjjNrpDqQ9ss6BRTYmDM=",
   "Source": "DevExpressTest",
   "BasePath": "_content/DevExpressTest",
   "Mode": "Default",
@@ -780,6 +780,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\sad.svg"
+    },
+    {
+      "Identity": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\js\\browser-resize.js",
+      "SourceId": "DevExpressTest",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Project\\DevExpressTest\\DevExpressTest\\wwwroot\\",
+      "BasePath": "_content/DevExpressTest",
+      "RelativePath": "js/browser-resize.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\browser-resize.js"
     },
     {
       "Identity": "C:\\Users\\paolo.rubaga\\.nuget\\packages\\devexpress.blazor.themes\\22.2.6\\staticwebassets\\blazing-berry.bs4.css",
