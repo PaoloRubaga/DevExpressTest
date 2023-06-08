@@ -14,3 +14,7 @@ function RemoveWindowResizeListener(objReference) {
 function UpdateWindowSize(objReference) {
     objReference.invokeMethodAsync("UpdateWindowSize", window.innerWidth, window.innerHeight);
 }
+
+function isDevice() {
+    return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(navigator.userAgent);
+}

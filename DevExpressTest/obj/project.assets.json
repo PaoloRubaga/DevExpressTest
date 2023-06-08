@@ -2,6 +2,26 @@
   "version": 3,
   "targets": {
     "net6.0": {
+      "BlazorPro.BlazorSize/6.2.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "6.0.0",
+          "Microsoft.AspNetCore.Components.Web": "6.0.0",
+          "Microsoft.Extensions.DependencyInjection": "6.0.0"
+        },
+        "compile": {
+          "lib/net6.0/BlazorPro.BlazorSize.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/BlazorPro.BlazorSize.dll": {}
+        },
+        "build": {
+          "buildTransitive/BlazorPro.BlazorSize.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/BlazorPro.BlazorSize.props": {}
+        }
+      },
       "Dapper/2.0.123": {
         "type": "package",
         "compile": {
@@ -1106,6 +1126,28 @@
     }
   },
   "libraries": {
+    "BlazorPro.BlazorSize/6.2.1": {
+      "sha512": "aex0rgoIJyW8BRz+MAPLEebuqTTd0ZW+nKtzoGhEdd7B5cMLYXx9lq5/GSnsSc9ZxcCJjTCTLFzx8QQrSabNOA==",
+      "type": "package",
+      "path": "blazorpro.blazorsize/6.2.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "blazor-glove-128.jpg",
+        "blazorpro.blazorsize.6.2.1.nupkg.sha512",
+        "blazorpro.blazorsize.nuspec",
+        "build/BlazorPro.BlazorSize.props",
+        "build/Microsoft.AspNetCore.StaticWebAssets.props",
+        "buildMultiTargeting/BlazorPro.BlazorSize.props",
+        "buildTransitive/BlazorPro.BlazorSize.props",
+        "lib/net6.0/BlazorPro.BlazorSize.dll",
+        "staticwebassets/blazorSizeMedia.js",
+        "staticwebassets/blazorSizeMediaModule.js",
+        "staticwebassets/blazorSizeResize.js",
+        "staticwebassets/blazorSizeResizeModule.js"
+      ]
+    },
     "Dapper/2.0.123": {
       "sha512": "RDFF4rBLLmbpi6pwkY7q/M6UXHRJEOerplDGE5jwEkP/JGJnBauAClYavNKJPW1yOTWRPIyfj4is3EaJxQXILQ==",
       "type": "package",
@@ -3594,6 +3636,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "BlazorPro.BlazorSize >= 6.2.1",
       "DataAccessLibrary >= 1.0.0",
       "DevExpress.Blazor >= 22.2.*"
     ]
@@ -3642,6 +3685,10 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "BlazorPro.BlazorSize": {
+            "target": "Package",
+            "version": "[6.2.1, )"
+          },
           "DevExpress.Blazor": {
             "target": "Package",
             "version": "[22.2.*, )"

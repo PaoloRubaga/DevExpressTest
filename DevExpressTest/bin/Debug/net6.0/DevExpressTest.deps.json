@@ -8,11 +8,25 @@
     ".NETCoreApp,Version=v6.0": {
       "DevExpressTest/1.0.0": {
         "dependencies": {
+          "BlazorPro.BlazorSize": "6.2.1",
           "DataAccessLibrary": "1.0.0",
           "DevExpress.Blazor": "22.2.6"
         },
         "runtime": {
           "DevExpressTest.dll": {}
+        }
+      },
+      "BlazorPro.BlazorSize/6.2.1": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "6.0.0",
+          "Microsoft.AspNetCore.Components.Web": "6.0.0",
+          "Microsoft.Extensions.DependencyInjection": "6.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/BlazorPro.BlazorSize.dll": {
+            "assemblyVersion": "6.2.0.0",
+            "fileVersion": "6.2.0.0"
+          }
         }
       },
       "Dapper/2.0.123": {
@@ -583,6 +597,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "BlazorPro.BlazorSize/6.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aex0rgoIJyW8BRz+MAPLEebuqTTd0ZW+nKtzoGhEdd7B5cMLYXx9lq5/GSnsSc9ZxcCJjTCTLFzx8QQrSabNOA==",
+      "path": "blazorpro.blazorsize/6.2.1",
+      "hashPath": "blazorpro.blazorsize.6.2.1.nupkg.sha512"
     },
     "Dapper/2.0.123": {
       "type": "package",

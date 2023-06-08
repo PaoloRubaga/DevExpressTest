@@ -4,6 +4,7 @@
 @{
     Layout = "_Layout";
 }
+
 <head>
     @*...*@
     @* Bootstrap 4 *@
@@ -12,6 +13,7 @@
     @*...*@
 </head>
 <component type="typeof(App)" render-mode="ServerPrerendered" />
+
 <script type="text/javascript">
     window.getDimensions = function() {
         return {
@@ -20,4 +22,6 @@
             };
     };
 </script>
+
 <script src = "js/browser-resize.js"></script>
+

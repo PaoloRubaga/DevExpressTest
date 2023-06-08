@@ -78,3 +78,4 @@ C:\Project\DevExpressTest\DevExpressTest\bin\Debug\net6.0\runtimes\unix\lib\netc
 C:\Project\DevExpressTest\DevExpressTest\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Project\DevExpressTest\DevExpressTest\bin\Debug\net6.0\DataAccessLibrary.dll
 C:\Project\DevExpressTest\DevExpressTest\bin\Debug\net6.0\DataAccessLibrary.pdb
+C:\Project\DevExpressTest\DevExpressTest\bin\Debug\net6.0\BlazorPro.BlazorSize.dll

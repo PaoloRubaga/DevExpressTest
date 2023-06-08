@@ -8,7 +8,6 @@
 @inject WeatherForecastService ForecastService
 @inject IJSRuntime JS
 
-@implements IAsyncDisposable
 
 
 <h1>Window width: @WindowWidth</h1>
@@ -33,6 +32,7 @@
         </DxGridDataColumn>
     </Columns>
 </DxGrid>
+
 
 @code {
     private WeatherForecast[] forecasts;
@@ -62,7 +62,7 @@
     }
 
     [JSInvokable]
-    public void UpdateWindowWidth(int windowWidth)
+    public void UpdateWindowSize(int windowWidth, int windowHeight)
     {
         WindowWidth = windowWidth;
         StateHasChanged();
@@ -70,12 +70,12 @@
 
     private async Task InitWindowWidthListener()
     {
-        await JS.InvokeVoidAsync("AddWindowWidthListener", _objectReference);
+        await JS.InvokeVoidAsync("AddWindowResizeListener", _objectReference);
     }
 
     public async ValueTask DisposeAsync()
     {
-        await JS.InvokeVoidAsync("RemoveWindowWidthListener", _objectReference);
+        await JS.InvokeVoidAsync("RemoveWindowResizeListener", _objectReference);
         _objectReference?.Dispose();
     }
 }

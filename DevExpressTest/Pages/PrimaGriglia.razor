@@ -5,16 +5,16 @@
 @using DevExpressTest.Components
 @using DevExpressTest.Data
 
+
 @inject IDispositivoData _db
 @inject IJSRuntime JS
 @inject BrowserService Service
+
 
 <h3>PrimaGriglia</h3>
 
 <h1>Window width: @WindowWidth</h1>
 <h1>Window height: @WindowHeight</h1>
-
-
 
 <input type="text" @bind-value="FilterText" @bind-value:event="oninput" placeholder="Search" />
 
@@ -75,12 +75,22 @@
 
 <p />
 <DxButton Click="@(() => Grid.SortBy("Descrizione"))">ordina per descrizione</DxButton>
+<p />
 
 
 
 
 
 @code {
+
+
+    bool mobile = false;
+
+    public async Task IsMobile()
+    {
+        mobile = await JS.InvokeAsync<bool>("isDevice");
+    }
+
     public bool visibleMatricola = true, visibleDescrizione = true, visibleModello = true, visibleCommand = true, visibleSelection = true;
 
     //utilizzando javascript ottengo le dimensioni della finestra
@@ -90,17 +100,18 @@
         WindowHeight = dimension.Height;
         WindowWidth = dimension.Width;
         ShowDetails();
-
+        StateHasChanged();
     }
 
     //in base alla larghezza mostro o no la riga dei dettagli o le varie colonne
-    protected void ShowDetails()
+    protected async void ShowDetails()
     {
-        visibleMatricola = WindowWidth >= 500;
-        visibleDescrizione = WindowWidth >= 700;
-        visibleModello = WindowWidth >= 900;
-        visibleCommand = WindowWidth >= 1100;
-        visibleSelection = WindowWidth >= 1400;
+        await IsMobile();
+        visibleMatricola = (WindowWidth >= 500 && !mobile) || (WindowWidth >= 300 && mobile);
+        visibleDescrizione = (WindowWidth >= 700 && !mobile) || (WindowWidth >= 400 && mobile);
+        visibleModello = (WindowWidth >= 900 && !mobile) || (WindowWidth >= 500 && mobile);
+        visibleCommand = (WindowWidth >= 1100 && !mobile) || (WindowWidth >= 700 && mobile);
+        visibleSelection = (WindowWidth >= 1400 && !mobile) || (WindowWidth >= 600 && mobile);
 
         if (WindowWidth < 1400)
         {
@@ -138,8 +149,9 @@
     {
         WindowWidth = windowWidth;
         WindowHeight = windowHeight;
-        StateHasChanged();
+        
         ShowDetails();
+        StateHasChanged();
     }
 
     private async Task InitWindowResizeListener()
@@ -165,10 +177,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        listaDispositivi = await _db.GetDispositivo();
         await GetDimensions();
+        listaDispositivi = await _db.GetDispositivo();
+        
     }
-
 
     void Grid_CustomizeElement(GridCustomizeElementEventArgs e) {
         if(e.ElementType == GridElementType.DetailCell) {

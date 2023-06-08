@@ -123,6 +123,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "BlazorPro.BlazorSize": {
+              "target": "Package",
+              "version": "[6.2.1, )"
+            },
             "DevExpress.Blazor": {
               "target": "Package",
               "version": "[22.2.*, )"

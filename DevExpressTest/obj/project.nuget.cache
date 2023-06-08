@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "tajPNoDLYtnndpugQJ6MRvgqbCkcujigeqKBhPn/mKn7HFmv6/wfYEVxiLpXrzufg1BDHzYyXDEm7lcKrlB+DQ==",
+  "dgSpecHash": "395+whFGlLilXGYo+Zq2YpT7AciZUoXZ9H+jVidR3LqTSKrKg5iEGJO4hX+u3hxXC0Y54r4YXyx+OBFijCYDEQ==",
   "success": true,
   "projectFilePath": "C:\\Project\\DevExpressTest\\DevExpressTest\\DevExpressTest.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\paolo.rubaga\\.nuget\\packages\\blazorpro.blazorsize\\6.2.1\\blazorpro.blazorsize.6.2.1.nupkg.sha512",
     "C:\\Users\\paolo.rubaga\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\paolo.rubaga\\.nuget\\packages\\devexpress.blazor\\22.2.6\\devexpress.blazor.22.2.6.nupkg.sha512",
     "C:\\Users\\paolo.rubaga\\.nuget\\packages\\devexpress.blazor.themes\\22.2.6\\devexpress.blazor.themes.22.2.6.nupkg.sha512",
