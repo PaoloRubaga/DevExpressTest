@@ -1,3 +1,14 @@
+@import '_content/MyRazorLibrary/MyRazorLibrary.bundle.scp.css';
+
+/* _content/DevExpressTest/Pages/PrimaGriglia.razor.rz.scp.css */
+h1[b-stlxq9jvds] {
+    color: brown;
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@media () {
+
+}
 /* _content/DevExpressTest/Shared/Header.razor.rz.scp.css */
 .navbar.header-navbar[b-m10fdybrrw] {
     flex-grow: 0;

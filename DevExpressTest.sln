@@ -10,6 +10,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevExpressTest", "DevExpres
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLibrary", "DataAccessLibrary\DataAccessLibrary.csproj", "{093104FC-8042-4DC2-8E96-BCF53EADCF2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyRazorLibrary", "MyRazorLibrary\MyRazorLibrary.csproj", "{0286E19A-3F22-4349-82FA-5A2BC4D0A207}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{093104FC-8042-4DC2-8E96-BCF53EADCF2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{093104FC-8042-4DC2-8E96-BCF53EADCF2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{093104FC-8042-4DC2-8E96-BCF53EADCF2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0286E19A-3F22-4349-82FA-5A2BC4D0A207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0286E19A-3F22-4349-82FA-5A2BC4D0A207}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0286E19A-3F22-4349-82FA-5A2BC4D0A207}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0286E19A-3F22-4349-82FA-5A2BC4D0A207}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

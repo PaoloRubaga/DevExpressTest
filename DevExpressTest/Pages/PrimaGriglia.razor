@@ -4,11 +4,13 @@
 @using DataAccessLibrary
 @using DevExpressTest.Components
 @using DevExpressTest.Data
+@using BlazorPro.BlazorSize
 
+@implements IDisposable
 
 @inject IDispositivoData _db
-@inject IJSRuntime JS
-@inject BrowserService Service
+@inject IResizeListener listener
+@inject IMediaQueryService MediaQueryService
 
 
 <h3>PrimaGriglia</h3>
@@ -73,40 +75,63 @@
     </EditFormTemplate>
 </DxGrid>
 
-<p />
-<DxButton Click="@(() => Grid.SortBy("Descrizione"))">ordina per descrizione</DxButton>
-<p />
 
 
+    <p />
+    <DxButton Click="@(() => Grid.SortBy("Descrizione"))">ordina per descrizione</DxButton>
+    <p />
 
+@if (IsSmall)
+{
+    <p>IsSmall = true</p>
+}
+else
+{
+    <p>IsSmall = false</p>
+}
+
+@if (IsMedium)
+{
+    <span>Medium</span>
+}
+
+<MediaQuery Media="@Breakpoints.OnlyMedium" @bind-Matches="IsMedium" />
+<MediaQuery Media="@Breakpoints.SmallDown" @bind-Matches="IsSmall" />
+
+<h3>Dimensione Finestra:</h3>
+<p>Larghezza: @WindowWidth2</p>
+<p>Altezza: @WindowHeight2</p>
 
 
 @code {
+    private BrowserWindowSize WindowSize { get; set; }
 
 
-    bool mobile = false;
-
-    public async Task IsMobile()
+    private void OnWindowResized(object sender, BrowserWindowSize windowSize)
     {
-        mobile = await JS.InvokeAsync<bool>("isDevice");
-    }
-
-    public bool visibleMatricola = true, visibleDescrizione = true, visibleModello = true, visibleCommand = true, visibleSelection = true;
-
-    //utilizzando javascript ottengo le dimensioni della finestra
-    async Task GetDimensions()
-    {
-        var dimension = await Service.GetDimensions();
-        WindowHeight = dimension.Height;
-        WindowWidth = dimension.Width;
-        ShowDetails();
+        WindowSize = windowSize;
+        WindowWidth2 = windowSize.Width;
+        WindowHeight2 = windowSize.Height;
         StateHasChanged();
     }
+
+    public int WindowWidth2 { get; set; }
+    public int WindowHeight2 { get; set; }
+    bool IsMedium = false;
+    bool IsSmall = false;
+
+    public int WindowWidth { get; set; }
+    public int WindowHeight { get; set; }
+    bool mobile = false;
+    public bool visibleMatricola = true, visibleDescrizione = true, visibleModello = true, visibleCommand = true, visibleSelection = true;
+    BrowserWindowSize browser = new BrowserWindowSize();
+    bool IsSmallMedia = false;
+
 
     //in base alla larghezza mostro o no la riga dei dettagli o le varie colonne
     protected async void ShowDetails()
     {
-        await IsMobile();
+
         visibleMatricola = (WindowWidth >= 500 && !mobile) || (WindowWidth >= 300 && mobile);
         visibleDescrizione = (WindowWidth >= 700 && !mobile) || (WindowWidth >= 400 && mobile);
         visibleModello = (WindowWidth >= 900 && !mobile) || (WindowWidth >= 500 && mobile);
@@ -127,43 +152,49 @@
         }
     }
 
-    private DotNetObjectReference<PrimaGriglia> _objectReference;
-    public int WindowWidth { get; set; }
-    public int WindowHeight { get; set; }
 
-    protected override void OnInitialized()
+    protected override void OnAfterRender(bool firstRender)
     {
-        _objectReference = DotNetObjectReference.Create(this);
-    }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
         if (firstRender)
         {
-            await InitWindowResizeListener();
+            // Subscribe to the OnResized event. This will do work when the browser is resized.
+            listener.OnResized += WindowResized;
+            listener.OnResized += OnWindowResized;
+            
         }
     }
 
-    [JSInvokable]
-    public void UpdateWindowSize(int windowWidth, int windowHeight)
+    void IDisposable.Dispose()
     {
-        WindowWidth = windowWidth;
-        WindowHeight = windowHeight;
-        
+        // Always use IDisposable in your component to unsubscribe from the event.
+        // Be a good citizen and leave things how you found them.
+        // This way event handlers aren't called when nobody is listening.
+        listener.OnResized -= WindowResized;
+    }
+
+    // This method will be called when the window resizes.
+    // It is ONLY called when the user stops dragging the window's edge. (It is already throttled to protect your app from perf. nightmares)
+    async void WindowResized(object _, BrowserWindowSize window)
+    {
+        // Get the browsers's width / height
+        browser = window;
+
+        // Check a media query to see if it was matched. We can do this at any time, but it's best to check on each resize
+        IsSmallMedia = await listener.MatchMedia(Breakpoints.SmallDown);
+
+        WindowWidth = window.Width;
+        WindowHeight = window.Height;
         ShowDetails();
+
+        // We're outside of the component's lifecycle, be sure to let it know it has to re-render.
         StateHasChanged();
     }
 
-    private async Task InitWindowResizeListener()
-    {
-        await JS.InvokeVoidAsync("AddWindowResizeListener", _objectReference);
-    }
 
-    public async ValueTask DisposeAsync()
-    {
-        await JS.InvokeVoidAsync("RemoveWindowResizeListener", _objectReference);
-        _objectReference?.Dispose();
-    }
+
+
+ 
 
     DxGrid Grid { get; set; }
     IGrid? UsersGrid { get; set; }
@@ -177,7 +208,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await GetDimensions();
+        
         listaDispositivi = await _db.GetDispositivo();
         
     }

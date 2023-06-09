@@ -22,3 +22,7 @@ C:\Project\DevExpressTest\DataAccessLibrary\obj\Debug\net6.0\DataAccessLibrary.d
 C:\Project\DevExpressTest\DataAccessLibrary\obj\Debug\net6.0\refint\DataAccessLibrary.dll
 C:\Project\DevExpressTest\DataAccessLibrary\obj\Debug\net6.0\DataAccessLibrary.pdb
 C:\Project\DevExpressTest\DataAccessLibrary\obj\Debug\net6.0\ref\DataAccessLibrary.dll
+C:\Project\DevExpressTest\DataAccessLibrary\bin\Debug\net6.0\MyRazorLibrary.staticwebassets.runtime.json
+C:\Project\DevExpressTest\DataAccessLibrary\bin\Debug\net6.0\MyRazorLibrary.dll
+C:\Project\DevExpressTest\DataAccessLibrary\bin\Debug\net6.0\MyRazorLibrary.pdb
+C:\Project\DevExpressTest\DataAccessLibrary\obj\Debug\net6.0\DataAccessLibrary.csproj.CopyComplete

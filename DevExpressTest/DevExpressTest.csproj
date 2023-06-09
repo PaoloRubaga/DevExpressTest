@@ -12,5 +12,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\DataAccessLibrary\DataAccessLibrary.csproj" />
+		<ProjectReference Include="..\MyRazorLibrary\MyRazorLibrary.csproj" />
 	</ItemGroup>
 </Project>

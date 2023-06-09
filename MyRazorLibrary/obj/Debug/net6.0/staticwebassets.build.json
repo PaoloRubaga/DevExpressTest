@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "Hash": "+JspfZCbkmS3MQTSH+qZ8Sdbh0oKkgtbENOgnDZ1rkI=",
+  "Source": "MyRazorLibrary",
+  "BasePath": "_content/MyRazorLibrary",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "MyRazorLibrary\\wwwroot",
+      "Source": "MyRazorLibrary",
+      "ContentRoot": "C:\\Project\\DevExpressTest\\MyRazorLibrary\\wwwroot\\",
+      "BasePath": "_content/MyRazorLibrary",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Project\\DevExpressTest\\MyRazorLibrary\\obj\\Debug\\net6.0\\scopedcss\\bundle\\MyRazorLibrary.styles.css",
+      "SourceId": "MyRazorLibrary",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\Project\\DevExpressTest\\MyRazorLibrary\\obj\\Debug\\net6.0\\scopedcss\\bundle\\",
+      "BasePath": "_content/MyRazorLibrary",
+      "RelativePath": "MyRazorLibrary.styles.css",
+      "AssetKind": "All",
+      "AssetMode": "CurrentProject",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ApplicationBundle",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Project\\DevExpressTest\\MyRazorLibrary\\obj\\Debug\\net6.0\\scopedcss\\bundle\\MyRazorLibrary.styles.css"
+    },
+    {
+      "Identity": "C:\\Project\\DevExpressTest\\MyRazorLibrary\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\MyRazorLibrary.bundle.scp.css",
+      "SourceId": "MyRazorLibrary",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\Project\\DevExpressTest\\MyRazorLibrary\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\",
+      "BasePath": "_content/MyRazorLibrary",
+      "RelativePath": "MyRazorLibrary.bundle.scp.css",
+      "AssetKind": "All",
+      "AssetMode": "Reference",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ProjectBundle",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Project\\DevExpressTest\\MyRazorLibrary\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\MyRazorLibrary.bundle.scp.css"
+    },
+    {
+      "Identity": "C:\\Project\\DevExpressTest\\MyRazorLibrary\\wwwroot\\background.png",
+      "SourceId": "MyRazorLibrary",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Project\\DevExpressTest\\MyRazorLibrary\\wwwroot\\",
+      "BasePath": "_content/MyRazorLibrary",
+      "RelativePath": "background.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\background.png"
+    },
+    {
+      "Identity": "C:\\Project\\DevExpressTest\\MyRazorLibrary\\wwwroot\\exampleJsInterop.js",
+      "SourceId": "MyRazorLibrary",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Project\\DevExpressTest\\MyRazorLibrary\\wwwroot\\",
+      "BasePath": "_content/MyRazorLibrary",
+      "RelativePath": "exampleJsInterop.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\exampleJsInterop.js"
+    }
+  ]
+}

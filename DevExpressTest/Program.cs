@@ -1,4 +1,5 @@
 
+using BlazorPro.BlazorSize;
 using DataAccessLibrary;
 using DevExpressTest.Data;
 
@@ -14,6 +15,8 @@ builder.Services.AddTransient<IDispositivoData, DispositivoData>();
 builder.Services.AddTransient<IOrdineData, OrdineData>();
 builder.Services.AddTransient<IOrdiniDataNoDapper, OrdiniDataNoDapper>();
 builder.Services.AddScoped<BrowserService>();
+builder.Services.AddMediaQueryService();
+builder.Services.AddScoped<IResizeListener, ResizeListener>();
 builder.Services.Configure<DevExpress.Blazor.Configuration.GlobalOptions>(options =>
 {
     options.BootstrapVersion = DevExpress.Blazor.BootstrapVersion.v5;

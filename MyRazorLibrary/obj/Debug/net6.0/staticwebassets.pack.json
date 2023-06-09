@@ -1,0 +1,33 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Project\\DevExpressTest\\MyRazorLibrary\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\MyRazorLibrary.bundle.scp.css",
+      "PackagePath": "staticwebassets\\MyRazorLibrary.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\MyRazorLibrary\\wwwroot\\background.png",
+      "PackagePath": "staticwebassets\\background.png"
+    },
+    {
+      "Id": "C:\\Project\\DevExpressTest\\MyRazorLibrary\\wwwroot\\exampleJsInterop.js",
+      "PackagePath": "staticwebassets\\exampleJsInterop.js"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.MyRazorLibrary.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.build.MyRazorLibrary.props",
+      "PackagePath": "build\\MyRazorLibrary.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.MyRazorLibrary.props",
+      "PackagePath": "buildMultiTargeting\\MyRazorLibrary.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildTransitive.MyRazorLibrary.props",
+      "PackagePath": "buildTransitive\\MyRazorLibrary.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

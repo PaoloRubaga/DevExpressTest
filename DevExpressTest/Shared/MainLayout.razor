@@ -1,9 +1,10 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
+@using BlazorPro.BlazorSize
 
 <DxLayoutBreakpoint MaxWidth="1200"
                     @bind-IsActive="@IsMobileLayout" />
-
+<MediaQueryList>
 <div class="page">
     <DxGridLayout CssClass="page-layout">
         <Rows>
@@ -42,6 +43,7 @@
         </Items>
     </DxGridLayout>
     </div>
+</MediaQueryList>
 
 @code{
     string? NavMenuCssClass { get; set; }
