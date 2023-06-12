@@ -10,7 +10,8 @@
         "dependencies": {
           "BlazorPro.BlazorSize": "6.2.1",
           "DataAccessLibrary": "1.0.0",
-          "DevExpress.Blazor": "22.2.6"
+          "DevExpress.Blazor": "22.2.6",
+          "MyRazorLibrary": "1.0.0"
         },
         "runtime": {
           "DevExpressTest.dll": {}

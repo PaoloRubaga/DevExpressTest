@@ -547,7 +547,8 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\paolo.rubaga\\.nuget\\packages\\": {}
+    "C:\\Users\\paolo.rubaga\\.nuget\\packages\\": {},
+    "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages": {}
   },
   "project": {
     "version": "1.0.0",
@@ -558,8 +559,12 @@
       "packagesPath": "C:\\Users\\paolo.rubaga\\.nuget\\packages\\",
       "outputPath": "C:\\Project\\DevExpressTest\\MyRazorLibrary\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages"
+      ],
       "configFilePaths": [
         "C:\\Users\\paolo.rubaga\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 22.2.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -567,6 +572,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\DevExpress 22.2\\Components\\System\\Components\\Packages": {},
         "https://api.nuget.org/v3/index.json": {},
         "https://nuget.devexpress.com/GsQdEhqjEAbfrl26IDgjkAJjR7ITQzVdB3IpOerVU4Q32StJbA/api": {}
       },

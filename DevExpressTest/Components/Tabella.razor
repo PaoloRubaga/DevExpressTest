@@ -1,0 +1,48 @@
+﻿@using DataAccessLibrary.Models
+@using System.Reflection
+
+<h3>Tabella</h3>
+
+<table>
+    <tbody>
+        @for (int i = 0; i < Valore; i++)
+        {
+            <tr>
+                @for (int j = 0; j < Valore; j++)
+                {
+                    <td>Cella @(i + 1), @(j + 1)</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@if (ListaOggetti != null && ListaOggetti.Count > 0)
+{
+    <ul>
+        @foreach (var oggetto in ListaOggetti)
+        {
+            <li>@GetAttributi(oggetto)</li>
+        }
+    </ul>
+}
+else
+{
+    <p>Nessun oggetto presente nella lista.</p>
+}
+
+@code {
+    [Parameter] public int Valore { get; set; }
+
+    [Parameter]
+    public List<Object> ListaOggetti { get; set; }
+
+    private string GetAttributi(object oggetto)
+    {
+        var attributi = string.Join(", ", oggetto.GetType().GetProperties().Select(prop => prop.GetValue(oggetto)?.ToString()));
+        return attributi;
+    }
+
+
+}

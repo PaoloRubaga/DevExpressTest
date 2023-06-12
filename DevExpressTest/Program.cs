@@ -1,6 +1,9 @@
 
 using BlazorPro.BlazorSize;
 using DataAccessLibrary;
+using DevExpress.Blazor.Reporting;
+using DevExpress.XtraReports.Web.Extensions;
+using DevExpressTest;
 using DevExpressTest.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +20,8 @@ builder.Services.AddTransient<IOrdiniDataNoDapper, OrdiniDataNoDapper>();
 builder.Services.AddScoped<BrowserService>();
 builder.Services.AddMediaQueryService();
 builder.Services.AddScoped<IResizeListener, ResizeListener>();
+builder.Services.AddDevExpressBlazorReporting();
+builder.Services.AddScoped<ReportStorageWebExtension, CustomReportStorageWebExtension>();
 builder.Services.Configure<DevExpress.Blazor.Configuration.GlobalOptions>(options =>
 {
     options.BootstrapVersion = DevExpress.Blazor.BootstrapVersion.v5;

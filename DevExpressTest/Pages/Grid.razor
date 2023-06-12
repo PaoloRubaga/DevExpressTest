@@ -1,16 +1,15 @@
 ﻿@page "/grid"
 
 @using DevExpressTest.Data
-@using Microsoft.AspNetCore.Components;
-@using Microsoft.JSInterop;
-@using System.Threading.Tasks;
+@using Microsoft.AspNetCore.Components
+@using Microsoft.JSInterop
+@using System.Threading.Tasks
+@using DevExpressTest.Components
+
+
 
 @inject WeatherForecastService ForecastService
-@inject IJSRuntime JS
 
-
-
-<h1>Window width: @WindowWidth</h1>
 
 <DxGrid Data="@forecasts"
         ShowFilterRow="true"
@@ -34,8 +33,11 @@
 </DxGrid>
 
 
+
+
 @code {
     private WeatherForecast[] forecasts;
+    private int valore = 10;
 
     List<string> Summaries = new List<string>();
 
@@ -53,29 +55,26 @@
         _objectReference = DotNetObjectReference.Create(this);
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await InitWindowWidthListener();
-        }
-    }
 
-    [JSInvokable]
-    public void UpdateWindowSize(int windowWidth, int windowHeight)
+    void GeneraReport()
     {
-        WindowWidth = windowWidth;
+        var report = new XtraReport();
+        var detailBand = new DetailBand();
+        report.Bands.Add(detailBand);
+
+        var gridControl = new GridControl();
+        gridControl.DataSource = dataSource;
+        gridControl.AutoGenerateColumns = true;
+
+        var gridControlContainer = new GridControlContainer(gridControl);
+        gridControlContainer.PrintOnPage = true;
+
+        detailBand.Controls.Add(gridControlContainer);
+
+        var reportDesigner = new ReportDesigner();
+        reportDesigner.Report = report;
+        reportDesigner.OpenReportEditor();
+
         StateHasChanged();
-    }
-
-    private async Task InitWindowWidthListener()
-    {
-        await JS.InvokeVoidAsync("AddWindowResizeListener", _objectReference);
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        await JS.InvokeVoidAsync("RemoveWindowResizeListener", _objectReference);
-        _objectReference?.Dispose();
     }
 }

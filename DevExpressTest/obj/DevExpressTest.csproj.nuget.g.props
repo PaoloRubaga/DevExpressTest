@@ -5,19 +5,24 @@
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\paolo.rubaga\.nuget\packages\</NuGetPackageFolders>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\paolo.rubaga\.nuget\packages\;C:\Program Files\DevExpress 22.2\Components\Offline Packages</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.5.0</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <SourceRoot Include="C:\Users\paolo.rubaga\.nuget\packages\" />
+    <SourceRoot Include="C:\Program Files\DevExpress 22.2\Components\Offline Packages\" />
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)devexpress.blazor.themes\22.2.6\buildTransitive\DevExpress.Blazor.Themes.props" Condition="Exists('$(NuGetPackageRoot)devexpress.blazor.themes\22.2.6\buildTransitive\DevExpress.Blazor.Themes.props')" />
+    <Import Project="$(NuGetPackageRoot)devexpress.blazor.reporting.jsbasedcontrols.common\22.2.6\buildTransitive\DevExpress.Blazor.Reporting.JSBasedControls.Common.props" Condition="Exists('$(NuGetPackageRoot)devexpress.blazor.reporting.jsbasedcontrols.common\22.2.6\buildTransitive\DevExpress.Blazor.Reporting.JSBasedControls.Common.props')" />
+    <Import Project="$(NuGetPackageRoot)devexpress.blazor.reporting.jsbasedcontrols.blazorserver\22.2.6\buildTransitive\DevExpress.Blazor.Reporting.JSBasedControls.BlazorServer.props" Condition="Exists('$(NuGetPackageRoot)devexpress.blazor.reporting.jsbasedcontrols.blazorserver\22.2.6\buildTransitive\DevExpress.Blazor.Reporting.JSBasedControls.BlazorServer.props')" />
     <Import Project="$(NuGetPackageRoot)devexpress.blazor\22.2.6\buildTransitive\net5.0\DevExpress.Blazor.props" Condition="Exists('$(NuGetPackageRoot)devexpress.blazor\22.2.6\buildTransitive\net5.0\DevExpress.Blazor.props')" />
     <Import Project="$(NuGetPackageRoot)blazorpro.blazorsize\6.2.1\buildTransitive\BlazorPro.BlazorSize.props" Condition="Exists('$(NuGetPackageRoot)blazorpro.blazorsize\6.2.1\buildTransitive\BlazorPro.BlazorSize.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgDevExpress_Data Condition=" '$(PkgDevExpress_Data)' == '' ">C:\Users\paolo.rubaga\.nuget\packages\devexpress.data\22.2.6</PkgDevExpress_Data>
+    <PkgDevExpress_Xpo Condition=" '$(PkgDevExpress_Xpo)' == '' ">C:\Users\paolo.rubaga\.nuget\packages\devexpress.xpo\22.2.6</PkgDevExpress_Xpo>
+    <PkgDevExpress_DataAccess Condition=" '$(PkgDevExpress_DataAccess)' == '' ">C:\Users\paolo.rubaga\.nuget\packages\devexpress.dataaccess\22.2.6</PkgDevExpress_DataAccess>
   </PropertyGroup>
 </Project>
