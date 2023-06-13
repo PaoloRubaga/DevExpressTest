@@ -40,6 +40,8 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 
+
+
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -47,5 +49,10 @@ app.UseRouting();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.Run();

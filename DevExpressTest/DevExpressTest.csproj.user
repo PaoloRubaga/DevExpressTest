@@ -7,6 +7,9 @@
     <ActiveDebugProfile>IIS Express</ActiveDebugProfile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="Reports\PrimaGrigliaReport.cs">
+      <SubType>XtraReport</SubType>
+    </Compile>
     <Compile Update="TestReport.cs">
       <SubType>XtraReport</SubType>
     </Compile>

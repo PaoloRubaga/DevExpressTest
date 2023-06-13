@@ -20,8 +20,16 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Project/DevExpressTest/DevExpressTest/Components/DocumentViewer.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEb2N1bWVudFZpZXdlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Project/DevExpressTest/DevExpressTest/Components/OperatorType.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xPcGVyYXRvclR5cGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Project/DevExpressTest/DevExpressTest/Components/ReportDesigner.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSZXBvcnREZXNpZ25lci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Project/DevExpressTest/DevExpressTest/Components/Tabella.razor]

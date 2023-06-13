@@ -56,25 +56,25 @@
     }
 
 
-    void GeneraReport()
-    {
-        var report = new XtraReport();
-        var detailBand = new DetailBand();
-        report.Bands.Add(detailBand);
+    //void GeneraReport()
+    //{
+    //    var report = new XtraReport();
+    //    var detailBand = new DetailBand();
+    //    report.Bands.Add(detailBand);
 
-        var gridControl = new GridControl();
-        gridControl.DataSource = dataSource;
-        gridControl.AutoGenerateColumns = true;
+    //    var gridControl = new GridControl();
+    //    gridControl.DataSource = dataSource;
+    //    gridControl.AutoGenerateColumns = true;
 
-        var gridControlContainer = new GridControlContainer(gridControl);
-        gridControlContainer.PrintOnPage = true;
+    //    var gridControlContainer = new GridControlContainer(gridControl);
+    //    gridControlContainer.PrintOnPage = true;
 
-        detailBand.Controls.Add(gridControlContainer);
+    //    detailBand.Controls.Add(gridControlContainer);
 
-        var reportDesigner = new ReportDesigner();
-        reportDesigner.Report = report;
-        reportDesigner.OpenReportEditor();
+    //    var reportDesigner = new ReportDesigner();
+    //    reportDesigner.Report = report;
+    //    reportDesigner.OpenReportEditor();
 
-        StateHasChanged();
-    }
+    //    StateHasChanged();
+    //}
 }

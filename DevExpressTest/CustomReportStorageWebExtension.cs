@@ -69,10 +69,10 @@ namespace DevExpressTest
             // Saves the specified report to the report storage with the specified name
             // (saves existing reports only). 
             var resolvedUrl = Path.GetFullPath(Path.Combine(reportDirectory, url + FileExtension));
-            if (!resolvedUrl.StartsWith(reportDirectory + Path.DirectorySeparatorChar))
-            {
-                throw new FaultException("Invalid report name.");
-            }
+            //if (!resolvedUrl.StartsWith(reportDirectory + Path.DirectorySeparatorChar))
+            //{
+            //    throw new FaultException("Invalid report name.");
+            //}
 
             report.SaveLayoutToXml(resolvedUrl);
         }
