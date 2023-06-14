@@ -4,6 +4,12 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Reports\TestReport.repx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reports\TestReport.repx" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BlazorPro.BlazorSize" Version="6.2.1" />
@@ -14,5 +20,19 @@
 	<ItemGroup>
 		<ProjectReference Include="..\DataAccessLibrary\DataAccessLibrary.csproj" />
 		<ProjectReference Include="..\MyRazorLibrary\MyRazorLibrary.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Reports\TestReport.cs">
+	    <DependentUpon>TestReport.repx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Reports\TestReport.Designer.cs">
+	    <DependentUpon>TestReport.repx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Models\DTO\" />
+	  <Folder Include="Models\EF\" />
 	</ItemGroup>
 </Project>

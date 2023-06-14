@@ -10,6 +10,12 @@
     <Compile Update="Reports\PrimaGrigliaReport.cs">
       <SubType>XtraReport</SubType>
     </Compile>
+    <Compile Update="Reports\ReportProva.cs">
+      <SubType>XtraReport</SubType>
+    </Compile>
+    <Compile Update="Reports\TestReport.cs">
+      <SubType>XtraReport</SubType>
+    </Compile>
     <Compile Update="TestReport.cs">
       <SubType>XtraReport</SubType>
     </Compile>

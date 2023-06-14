@@ -1,0 +1,220 @@
+﻿@page "/grigliaReport"
+
+@using DataAccessLibrary.Models
+@using DataAccessLibrary
+@using DevExpressTest.Components
+@using DevExpressTest.Data
+@using DevExpressTest.Reports
+@using DevExpress.XtraReports.Configuration
+@using DevExpress.XtraReports.Data
+@using DevExpress.XtraReports.UI
+
+
+@inject IDispositivoData _db
+@inject IResizeListener listener
+@inject IMediaQueryService MediaQueryService
+
+
+<h3>Griglia Report</h3>
+
+<DxGrid Data=@listaDispositivi
+    EditModelSaving="ModificaDispositivoDX"
+    EditMode="GridEditMode.PopupEditForm"
+    DataItemDeleting="EliminaDispositivoDX"
+    ShowFilterRow="true"
+    @ref="Grid"
+    DetailRowDisplayMode="GridDetailRowDisplayMode.Never"
+    CustomizeElement="Grid_CustomizeElement">
+    <Columns>
+        <DxGridSelectionColumn Visible=@visibleSelection />
+        <DxGridDataColumn FieldName="Matricola" Visible=@visibleMatricola />
+        <DxGridDataColumn FieldName="Descrizione" Visible=@visibleDescrizione />
+        <DxGridDataColumn FieldName="Modello" Visible=@visibleModello />
+        
+        <DxGridCommandColumn Visible=@visibleCommand />
+    </Columns>
+    <DetailRowTemplate>
+        @{
+            var disp = (DispositivoModel)context.DataItem;
+            <text>Matricola: @disp.Matricola</text>
+
+            <br />
+            <text>Descrizione: @disp.Descrizione</text>
+
+            <br />
+            <text>Modello: @disp.Modello</text>
+
+            <br />
+        }
+    </DetailRowTemplate>
+    <EditFormTemplate Context="editFormContent ">
+        @{
+            dispositivoDaModificare = (DispositivoModel)editFormContent.DataItem;
+            dispositivoModificato = (DispositivoModel)editFormContent.EditModel;
+        }
+        <DxFormLayout>
+            <DxFormLayoutItem Caption="Matricola:">
+                <DxTextBox @bind-Text="@dispositivoModificato.Matricola" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Descrizione:">
+                <DxTextBox @bind-Text="@dispositivoModificato.Descrizione" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Modello:">
+                <DxTextBox @bind-Text="@dispositivoModificato.Modello" />
+            </DxFormLayoutItem>
+        </DxFormLayout>
+    </EditFormTemplate>
+</DxGrid>
+
+<DxButton Click="@ToggleReport">mostra report</DxButton>
+@if (mostraReport)
+{
+    <DxDocumentViewer ReportName="TestReport" Height="1000px" Width="100%">
+        <DxDocumentViewerTabPanelSettings Width="180" />
+    </DxDocumentViewer>
+}
+
+
+
+@code {
+    public bool visibleMatricola = true, visibleDescrizione = true, visibleModello = true, visibleCommand = true, visibleSelection = true;
+    public ReportProva rp;
+
+    bool mostraReport = false;
+
+    void ToggleReport()
+    {
+        mostraReport = !mostraReport;
+    }
+
+
+
+
+
+
+
+
+    DxGrid Grid { get; set; }
+    IGrid? UsersGrid { get; set; }
+    private List<DispositivoModel> listaDispositivi;
+    private List<DispositivoModel> viewDispositivi;
+    private DispositivoModel newDispositivo = new DispositivoModel();
+    private DispositivoModel dispositivoDaModificare;
+    private DispositivoModel dispositivoModificato;
+    string matricolaPk;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        listaDispositivi = await _db.GetDispositivo();
+        rp = new ReportProva(listaDispositivi);
+        
+    }
+
+    void Grid_CustomizeElement(GridCustomizeElementEventArgs e) {
+        if(e.ElementType == GridElementType.DetailCell) {
+            e.Style = "padding: 0.5rem; opacity: 0.75";
+        }
+    }
+
+    async Task ModificaDispositivoDX(GridEditModelSavingEventArgs e)
+    {
+
+        var DispositivoModified = (DispositivoModel)e.EditModel;
+
+        //var dataItem = e.IsNew ? new DispositivoModel() : listaDispositivi.Find(editModel.Matricola);
+
+        if (dispositivoDaModificare is null)
+        {
+            await _db.InsertDispositivo(dispositivoModificato);
+        }
+        else
+            await _db.UpdateDispositivo(dispositivoDaModificare.Matricola, dispositivoModificato);
+        await OnInitializedAsync();
+    }
+
+    async Task AggiungiDispositivoDX(GridEditModelSavingEventArgs e)
+    {
+
+        var DispositivoModified = (DispositivoModel)e.EditModel;
+
+        //var dataItem = e.IsNew ? new DispositivoModel() : listaDispositivi.Find(editModel.Matricola);
+        if(dispositivoDaModificare is null)
+        {
+            await _db.InsertDispositivo(dispositivoModificato);
+        }
+        else
+        await _db.UpdateDispositivo(dispositivoDaModificare.Matricola, dispositivoModificato);
+        await OnInitializedAsync();
+    }
+
+    async Task EliminaDispositivoDX(GridDataItemDeletingEventArgs e)
+    {
+
+        var DispositivoDeleted = (DispositivoModel)e.DataItem;
+
+        //var dataItem = e.IsNew ? new DispositivoModel() : listaDispositivi.Find(editModel.Matricola);
+
+        await _db.DeleteDispositivo(DispositivoDeleted);
+        await OnInitializedAsync();
+    }
+
+    private async Task InsertDispositivo()
+    {
+        await _db.InsertDispositivo(newDispositivo);
+        newDispositivo = new DispositivoModel();
+        await OnInitializedAsync();
+    }
+
+    private async Task DeleteDispositivo(DispositivoModel d)
+    {
+        await _db.DeleteDispositivo(d);
+        await OnInitializedAsync();
+    }
+
+    private async Task UpdateDispositivo()
+    {
+        await _db.UpdateDispositivo(matricolaPk, dispositivoDaModificare);
+
+        dispositivoDaModificare = null;
+        await OnInitializedAsync();
+    }
+
+    private async Task ModificaDispositivo(DispositivoModel d)
+    {
+        dispositivoDaModificare = new DispositivoModel
+            {
+                Matricola = d.Matricola,
+                Descrizione = d.Descrizione,
+                Modello = d.Modello
+            };
+        matricolaPk = d.Matricola;
+        await OnInitializedAsync();
+    }
+
+    void OnClick()
+    {
+        Grid.ShowColumnChooser(".column-chooser-button");
+    }
+
+    List<DispositivoModel> FilteredData { get; set; }
+    DispositivoModel Value { get; set; }
+
+    string _filterText = "";
+    string FilterText
+    {
+        get { return _filterText; }
+        set
+        {
+            _filterText = value;
+            FilteredData = listaDispositivi.FindAll(x => x.Text.Contains(_filterText, StringComparison.OrdinalIgnoreCase));
+            Value = FilteredData.FirstOrDefault();
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+
+}
+
+}

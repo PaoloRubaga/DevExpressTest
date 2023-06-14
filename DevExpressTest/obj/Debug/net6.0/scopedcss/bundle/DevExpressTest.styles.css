@@ -1,5 +1,14 @@
 @import '_content/MyRazorLibrary/MyRazorLibrary.bundle.scp.css';
 
+/* _content/DevExpressTest/Pages/GrigliaReport.razor.rz.scp.css */
+h1[b-zsz5q5kzcn] {
+    color: brown;
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@media () {
+
+}
 /* _content/DevExpressTest/Pages/PrimaGriglia.razor.rz.scp.css */
 h1[b-stlxq9jvds] {
     color: brown;

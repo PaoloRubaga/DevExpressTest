@@ -4,6 +4,9 @@
 @using DataAccessLibrary
 @using DevExpressTest.Components
 @using DevExpressTest.Data
+@using DevExpressTest.Reports
+@using DevExpress.XtraReports.Configuration
+@using DevExpress.XtraReports.Data
 @using BlazorPro.BlazorSize
 
 @implements IDisposable
@@ -105,9 +108,10 @@ else
 
 
 
+
+
 @code {
     private BrowserWindowSize WindowSize { get; set; }
-
 
     private void OnWindowResized(object sender, BrowserWindowSize windowSize)
     {
@@ -116,6 +120,8 @@ else
         WindowHeight2 = windowSize.Height;
         StateHasChanged();
     }
+
+
 
     public int WindowWidth2 { get; set; }
     public int WindowHeight2 { get; set; }
@@ -317,5 +323,7 @@ else
         }
     }
 
+
+}
 
 }
