@@ -12,6 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLibrary", "DataAc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRazorLibrary", "MyRazorLibrary\MyRazorLibrary.csproj", "{0286E19A-3F22-4349-82FA-5A2BC4D0A207}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DxServerReporting", "DxServerReporting\DxServerReporting.csproj", "{132ED8F6-2C4B-4414-898E-B6CDF4FE4B6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{0286E19A-3F22-4349-82FA-5A2BC4D0A207}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0286E19A-3F22-4349-82FA-5A2BC4D0A207}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0286E19A-3F22-4349-82FA-5A2BC4D0A207}.Release|Any CPU.Build.0 = Release|Any CPU
+		{132ED8F6-2C4B-4414-898E-B6CDF4FE4B6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{132ED8F6-2C4B-4414-898E-B6CDF4FE4B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{132ED8F6-2C4B-4414-898E-B6CDF4FE4B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{132ED8F6-2C4B-4414-898E-B6CDF4FE4B6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

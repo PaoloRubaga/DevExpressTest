@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="22.2.6.0" Ref="0" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v22.2, Version=22.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="XtraReport1" PageWidth="850" PageHeight="1100" Version="22.2">
+  <Bands>
+    <Item1 Ref="1" ControlType="DetailBand" Name="Detail" TextAlignment="TopLeft" Padding="0,0,0,0,100">
+      <Controls>
+        <Item1 Ref="2" ControlType="XRTable" Name="xrTable1" SizeF="650,25" LocationFloat="0,10.0000067" Padding="2,2,0,0,96">
+          <Rows>
+            <Item1 Ref="3" ControlType="XRTableRow" Name="xrTableRow1" Weight="11.5">
+              <Cells>
+                <Item1 Ref="4" ControlType="XRTableCell" Name="xrTableCell1" Weight="0.2857142857142857" Multiline="true" Text="xrTableCell1">
+                  <ExpressionBindings>
+                    <Item1 Ref="5" EventName="BeforePrint" PropertyName="Text" Expression="[Dispositivi].[Descrizione]" />
+                  </ExpressionBindings>
+                </Item1>
+                <Item2 Ref="6" ControlType="XRTableCell" Name="xrTableCell2" Weight="0.2857142857142857" Multiline="true" Text="xrTableCell2">
+                  <ExpressionBindings>
+                    <Item1 Ref="7" EventName="BeforePrint" PropertyName="Text" Expression="[Dispositivi].[Matricola]" />
+                  </ExpressionBindings>
+                </Item2>
+                <Item3 Ref="8" ControlType="XRTableCell" Name="xrTableCell3" Weight="0.2857142857142857" Multiline="true" Text="xrTableCell3">
+                  <ExpressionBindings>
+                    <Item1 Ref="9" EventName="BeforePrint" PropertyName="Text" Expression="[Dispositivi].[Modello]" />
+                  </ExpressionBindings>
+                </Item3>
+              </Cells>
+            </Item1>
+          </Rows>
+        </Item1>
+      </Controls>
+    </Item1>
+    <Item2 Ref="10" ControlType="TopMarginBand" Name="TopMargin" TextAlignment="TopLeft" Padding="0,0,0,0,100" />
+    <Item3 Ref="11" ControlType="BottomMarginBand" Name="BottomMargin" TextAlignment="TopLeft" Padding="0,0,0,0,100" />
+  </Bands>
+  <ComponentStorage>
+    <Item1 Ref="12" ObjectType="DevExpress.DataAccess.Sql.SqlDataSource,DevExpress.DataAccess.v22.2" Name="sqlDataSource1" Base64="PFNxbERhdGFTb3VyY2UgTmFtZT0ic3FsRGF0YVNvdXJjZTEiPjxDb25uZWN0aW9uIE5hbWU9ImxvY2FsaG9zdF9MaW5hdXNfU0NQX1Blc2NhbnRpbmFfMjAyMzAzMDJfQ29ubmVjdGlvbiIgRnJvbUFwcENvbmZpZz0idHJ1ZSIgLz48UXVlcnkgVHlwZT0iU2VsZWN0UXVlcnkiIE5hbWU9IkRpc3Bvc2l0aXZpIj48VGFibGVzPjxUYWJsZSBOYW1lPSJEaXNwb3NpdGl2aSIgLz48L1RhYmxlcz48Q29sdW1ucz48Q29sdW1uIFRhYmxlPSJEaXNwb3NpdGl2aSIgTmFtZT0iTWF0cmljb2xhIiAvPjxDb2x1bW4gVGFibGU9IkRpc3Bvc2l0aXZpIiBOYW1lPSJEZXNjcml6aW9uZSIgLz48Q29sdW1uIFRhYmxlPSJEaXNwb3NpdGl2aSIgTmFtZT0iTW9kZWxsbyIgLz48L0NvbHVtbnM+PC9RdWVyeT48UmVzdWx0U2NoZW1hPjxEYXRhU2V0IE5hbWU9InNxbERhdGFTb3VyY2UxIj48VmlldyBOYW1lPSJEaXNwb3NpdGl2aSI+PEZpZWxkIE5hbWU9Ik1hdHJpY29sYSIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJEZXNjcml6aW9uZSIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJNb2RlbGxvIiBUeXBlPSJTdHJpbmciIC8+PC9WaWV3PjwvRGF0YVNldD48L1Jlc3VsdFNjaGVtYT48Q29ubmVjdGlvbk9wdGlvbnMgQ2xvc2VDb25uZWN0aW9uPSJ0cnVlIiAvPjwvU3FsRGF0YVNvdXJjZT4=" />
+  </ComponentStorage>
+</XtraReportsLayoutSerializer>

@@ -78,7 +78,7 @@
 
 @code {
     public bool visibleMatricola = true, visibleDescrizione = true, visibleModello = true, visibleCommand = true, visibleSelection = true;
-    public ReportProva rp;
+    
 
     bool mostraReport = false;
 
@@ -108,7 +108,7 @@
     {
 
         listaDispositivi = await _db.GetDispositivo();
-        rp = new ReportProva(listaDispositivi);
+        
         
     }
 

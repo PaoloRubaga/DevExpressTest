@@ -148,6 +148,10 @@
             "DevExpress.Blazor.Reporting.JSBasedControls.BlazorServer": {
               "target": "Package",
               "version": "[22.2.6, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.0-preview.5.23280.1, )"
             }
           },
           "imports": [

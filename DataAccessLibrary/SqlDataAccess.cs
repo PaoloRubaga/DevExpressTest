@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text.Json;
 
 namespace DataAccessLibrary
 {
@@ -37,5 +38,33 @@ namespace DataAccessLibrary
                 await connection.ExecuteAsync(sql, parameters);
             }
         }
+
+        public async Task SaveDataFile<T>(string sql, T parameters)
+        {
+            string connectionString = _config.GetConnectionString(ConnectionStringName);
+
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                await connection.ExecuteAsync(sql, parameters);
+            }
+        }
+
+
+        public async Task<byte[]> LoadDataFile<T>(string sql)
+        {
+            string connectionString = _config.GetConnectionString(ConnectionStringName);
+
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                var data = await connection.QueryAsync<T>(sql);
+
+                byte[] result = JsonSerializer.SerializeToUtf8Bytes(data);
+
+                return result;
+
+
+            }
+        }
+
     }
 }

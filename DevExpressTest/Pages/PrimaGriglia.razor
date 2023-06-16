@@ -1,5 +1,10 @@
 ﻿@page "/primaGriglia"
 
+@using System.Text.Json;
+@using System;
+@using System.IO;
+@using System.Net.Sockets;
+@using Microsoft.EntityFrameworkCore;
 @using DataAccessLibrary.Models
 @using DataAccessLibrary
 @using DevExpressTest.Components
@@ -84,6 +89,8 @@
     <DxButton Click="@(() => Grid.SortBy("Descrizione"))">ordina per descrizione</DxButton>
     <p />
 
+
+
 @if (IsSmall)
 {
     <p>IsSmall = true</p>
@@ -105,13 +112,81 @@ else
 <p>Larghezza: @WindowWidth2</p>
 <p>Altezza: @WindowHeight2</p>
 
+GrigliaDispositivi
 
+@*<DxDocumentViewer ReportName="@reportName" @ref="dxDocumentViewer" Height="1000px" Width="100%">
+</DxDocumentViewer>*@
 
+<button @onclick="GeneraReport">Genera Pdf</button>
+<button @onclick="GeneraReport">visualizza pdf</button>
+@if (!string.IsNullOrEmpty(pdfContent))
+{
+    <embed src="@pdfContent" width="800px" height="2100px" />
+    <iframe src="@pdfContent" width="800px" height="2100px" />
+    <object data="@pdfContent" width="500" height="200"></object>
+}
 
 
 
 @code {
     private BrowserWindowSize WindowSize { get; set; }
+    string pdfContent = "";
+
+    DxDocumentViewer dxDocumentViewer;
+    string reportName = "PrimaGriglia";
+    string paramValue = "0";
+
+    public void GeneraReport()
+    {
+        PrimaGrigliaReport report = new PrimaGrigliaReport();
+        using (MemoryStream ms = new MemoryStream())
+        {
+            //report.ExportToPdf(ms, new PdfExportOptions() { ShowPrintDialogOnOpen = true });
+            report.ExportToPdf(ms);
+            SalvaPdf( ms.ToArray());
+            //WriteDocumentToResponse(context, ms.ToArray(), "pdf", false, "reportOrdini.pdf");
+        }
+
+        //Operatore op = ((Operatore)context.Session["Operatore"]);
+        //XtraReport report = new xrReportOrdini(!string.IsNullOrEmpty(strIdLineaProduzione) ? Convert.ToInt32(strIdLineaProduzione) : op.IdLineaProduzione, strTipoMacchina, strGridFilterExpression, strGridOrderExpression, op.Lingua);
+        //using (MemoryStream ms = new MemoryStream())
+        //{
+        //    //report.ExportToPdf(ms, new PdfExportOptions() { ShowPrintDialogOnOpen = true });
+        //    report.ExportToPdf(ms);
+        //    WriteDocumentToResponse(context, ms.ToArray(), "pdf", false, "reportOrdini.pdf");
+        //}
+    }
+
+    public async void SalvaPdf( byte[] bytes)
+    {
+        await _db.AggiungiPdf(bytes);
+    }
+
+
+    static void WritePdfToFile(MemoryStream pdfData, string filePath)
+    {
+        try
+        {
+            // Verifica se il MemoryStream contiene dati
+            if (pdfData == null || pdfData.Length == 0)
+            {
+                Console.WriteLine("Il MemoryStream è vuoto. Impossibile scrivere il file PDF.");
+                return;
+            }
+
+            // Scrivi il MemoryStream nel file sul server
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                pdfData.WriteTo(fileStream);
+            }
+
+            Console.WriteLine("File PDF scritto con successo sul server.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Errore durante la scrittura del file PDF: {ex.Message}");
+        }
+    }
 
     private void OnWindowResized(object sender, BrowserWindowSize windowSize)
     {
@@ -218,6 +293,11 @@ else
     {
         
         listaDispositivi = await _db.GetDispositivo();
+
+        var data = await _db.GetFile();
+
+        pdfContent = "data:application/pdf;base64,";
+        pdfContent += System.Convert.ToBase64String(data);
         
     }
 

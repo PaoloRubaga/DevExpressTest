@@ -9,6 +9,8 @@ namespace DataAccessLibrary
         Task UpdateDispositivo(string matricolaPk, DispositivoModel dispositivoNuovo);
         Task DeleteDispositivo(DispositivoModel dispositivo);
         Task<List<DispositivoModel>> RicercaDispositivi(DispositivoModel dispositivo);
+        Task AggiungiPdf(byte[] bytes);
+        Task<byte[]> GetFile();
 
 
     }

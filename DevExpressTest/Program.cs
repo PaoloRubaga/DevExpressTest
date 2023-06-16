@@ -2,7 +2,10 @@
 using BlazorPro.BlazorSize;
 using DataAccessLibrary;
 using DevExpress.Blazor.Reporting;
+using DevExpress.XtraReports.Web.Extensions;
+using DevExpressTest;
 using DevExpressTest.Data;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

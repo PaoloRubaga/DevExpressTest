@@ -67,6 +67,23 @@ namespace DataAccessLibrary
             return _db.LoadData<DispositivoModel, dynamic>(sql, dispositivo);
         }
 
+        public Task AggiungiPdf(byte[] bytes)
+        {
+            string sql = @"INSERT INTO dbo.ReportPdfTest (ReportPdf) VALUES (@Data);";
+
+            var parameters = new { Data = bytes };
+
+            return _db.SaveDataFile(sql, parameters);
+        }
+
+        public Task<byte[]> GetFile()
+        {
+            string sql = "SELECT * FROM dbo.ReportPdfTest WHERE Id=1";
+
+            return _db.LoadDataFile<dynamic>(sql);
+        }
+
+
 
     }
 }

@@ -14,6 +14,7 @@
     <SourceRoot Include="C:\Program Files\DevExpress 22.2\Components\Offline Packages\" />
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore\8.0.0-preview.5.23280.1\buildTransitive\net6.0\Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore\8.0.0-preview.5.23280.1\buildTransitive\net6.0\Microsoft.EntityFrameworkCore.props')" />
     <Import Project="$(NuGetPackageRoot)devexpress.blazor.themes\22.2.6\buildTransitive\DevExpress.Blazor.Themes.props" Condition="Exists('$(NuGetPackageRoot)devexpress.blazor.themes\22.2.6\buildTransitive\DevExpress.Blazor.Themes.props')" />
     <Import Project="$(NuGetPackageRoot)devexpress.blazor.reporting.jsbasedcontrols.common\22.2.6\buildTransitive\DevExpress.Blazor.Reporting.JSBasedControls.Common.props" Condition="Exists('$(NuGetPackageRoot)devexpress.blazor.reporting.jsbasedcontrols.common\22.2.6\buildTransitive\DevExpress.Blazor.Reporting.JSBasedControls.Common.props')" />
     <Import Project="$(NuGetPackageRoot)devexpress.blazor.reporting.jsbasedcontrols.blazorserver\22.2.6\buildTransitive\DevExpress.Blazor.Reporting.JSBasedControls.BlazorServer.props" Condition="Exists('$(NuGetPackageRoot)devexpress.blazor.reporting.jsbasedcontrols.blazorserver\22.2.6\buildTransitive\DevExpress.Blazor.Reporting.JSBasedControls.BlazorServer.props')" />

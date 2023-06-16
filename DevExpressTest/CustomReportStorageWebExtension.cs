@@ -23,6 +23,11 @@ namespace DevExpressTest
             // Return **true** if no valdation is required.
             // This method is called only for valid URLs (if the **IsValidUrl** method returns **true**).
 
+            // Determina se un report con l'URL specificato può essere salvato.
+            // Aggiungi una logica personalizzata che restituisce false per i report che devono essere in sola lettura.
+            // Restituisci true se non è richiesta alcuna validazione.
+            // Questo metodo viene chiamato solo per URL validi (se il metodo IsValidUrl restituisce true).
+
             return true;
         }
 
@@ -41,6 +46,11 @@ namespace DevExpressTest
             // This method is called if the **IsValidUrl** method returns **true**.
             // You can use the **GetData** method to process report parameters sent from the client
             // if the parameters are included in the report URL's query string.
+
+            // Utilizza un URL specificato per restituire i dati del layout del report archiviati all'interno di un supporto di archiviazione del report.
+            // Questo metodo viene chiamato se il metodo IsValidUrl restituisce true.
+            // Puoi utilizzare il metodo GetData per elaborare i parametri del report inviati dal client
+            // se i parametri sono inclusi nella stringa di query dell'URL del report.
             try
             {
                 if (Directory.EnumerateFiles(reportDirectory).Select(Path.GetFileNameWithoutExtension).Contains(url))
